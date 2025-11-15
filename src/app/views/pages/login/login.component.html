@@ -1,0 +1,123 @@
+<div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
+  <c-container breakpoint="md">
+    <c-row class="justify-content-center">
+      <c-col lg="10" xl="5">
+        <c-card-group>
+
+          <c-card class="p-4">
+            <c-card-body>
+
+              <!-- ========================= -->
+              <!-- LOGIN FORM -->
+              <!-- ========================= -->
+              <form *ngIf="!showChangePassword" cForm #loginForm="ngForm" (ngSubmit)="login()">
+
+                <h1>Login</h1>
+                <p class="text-body-secondary">Sign In to your account</p>
+
+                <!-- Email -->
+                <c-input-group class="mb-1">
+                  <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
+                  <input type="email" name="email" cFormControl [(ngModel)]="email"
+                    placeholder="Email" required email #emailModel="ngModel"
+                    [ngClass]="{'is-invalid': emailModel.invalid && emailModel.touched}" />
+                </c-input-group>
+
+                <!-- Email errors -->
+                <div class="text-danger mb-3" *ngIf="emailModel.invalid && emailModel.touched">
+                  <small *ngIf="emailModel.errors?.['required']">Email is required.</small>
+                  <small *ngIf="emailModel.errors?.['email']">Invalid email format.</small>
+                </div>
+
+                <!-- Password -->
+                <c-input-group class="mb-1">
+                  <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
+                  <input type="password" name="password" cFormControl [(ngModel)]="password"
+                    placeholder="Password" required #passwordModel="ngModel"
+                    [ngClass]="{'is-invalid': passwordModel.invalid && passwordModel.touched}" />
+                </c-input-group>
+
+                <!-- Password errors -->
+                <div class="text-danger mb-3" *ngIf="passwordModel.invalid && passwordModel.touched">
+                  <small>Password is required.</small>
+                </div>
+
+                <c-row>
+                  <c-col xs="6">
+                    <button cButton color="primary" class="px-4" type="submit" [disabled]="loginForm.invalid">
+                      Login
+                    </button>
+                  </c-col>
+
+                  <!-- <c-col xs="6" class="text-end">
+                    <button cButton color="link" class="px-0" type="button"
+                      (click)="showChangePassword = true">
+                      Change Password?
+                    </button>
+                  </c-col> -->
+                </c-row>
+
+              </form>
+
+              <!-- ========================= -->
+              <!-- CHANGE PASSWORD FORM -->
+              <!-- ========================= -->
+              <form *ngIf="showChangePassword" cForm #pwdForm="ngForm" (ngSubmit)="changePassword()">
+
+                <h1>Change Password</h1>
+                <p class="text-body-secondary">Update your administrator password</p>
+
+                <!-- Old Password -->
+                <c-input-group class="mb-3">
+                  <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
+                  <input type="password" name="old_password" cFormControl [(ngModel)]="old_password"
+                    placeholder="Old Password" required #oldPass="ngModel"
+                    [ngClass]="{'is-invalid': oldPass.invalid && oldPass.touched}" />
+                </c-input-group>
+
+                <!-- New Password -->
+                <c-input-group class="mb-3">
+                  <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
+                  <input type="password" name="new_password" cFormControl [(ngModel)]="new_password"
+                    placeholder="New Password" required minlength="8" #newPass="ngModel"
+                    [ngClass]="{'is-invalid': newPass.invalid && newPass.touched}" />
+                </c-input-group>
+
+                <!-- Confirm Password -->
+                <c-input-group class="mb-4">
+                  <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
+                  <input type="password" name="confirm_password" cFormControl [(ngModel)]="confirm_password"
+                    placeholder="Confirm Password" required #confirmPass="ngModel"
+                    [ngClass]="{'is-invalid': confirmPass.touched && new_password !== confirm_password}" />
+                </c-input-group>
+
+                <div class="text-danger mb-2" *ngIf="confirmPass.touched && new_password !== confirm_password">
+                  <small>Passwords do not match.</small>
+                </div>
+
+                <c-row>
+                  <c-col xs="6">
+                    <button cButton color="primary" class="px-4" type="submit"
+                      [disabled]="pwdForm.invalid || new_password !== confirm_password">
+                      Update
+                    </button>
+                  </c-col>
+
+                  <c-col xs="6" class="text-end">
+                    <button cButton color="link" class="px-0" type="button"
+                      (click)="showChangePassword = false">
+                      Back to Login
+                    </button>
+                  </c-col>
+                </c-row>
+
+              </form>
+
+            </c-card-body>
+          </c-card>
+
+        </c-card-group>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>
