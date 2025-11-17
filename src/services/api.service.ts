@@ -39,10 +39,10 @@ export class ApiService {
     );
   }
   adminDashboard(): Observable<any> {
-    return this.http.get(this.url + 'admin/dashboard/', { headers: this.getAuthHeaders() }); // Fixed: Pass headers as options object
+    return this.http.get(this.url + 'admin/dashboard/', { headers: this.getAuthHeaders() }); 
   }
   getUserList():Observable<any>{
-    return this.http.get(this.url + 'admin/users/?role=customer', { headers: this.getAuthHeaders() }); // Fixed: Pass headers as options object
+    return this.http.get(this.url + 'admin/users/?role=customer', { headers: this.getAuthHeaders() }); 
   }
   getAgentList():Observable<any>{
     return this.http.get(this.url + 'admin/users/?role=agent', { headers: this.getAuthHeaders() });
