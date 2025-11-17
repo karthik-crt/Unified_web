@@ -16,14 +16,8 @@ import {
 } from '@coreui/angular';
 
 import { DefaultFooterComponent, DefaultHeaderComponent } from './';
-import { navItems } from './_nav';
-
-function isOverflown(element: HTMLElement) {
-  return (
-    element.scrollHeight > element.clientHeight ||
-    element.scrollWidth > element.clientWidth
-  );
-}
+import { customerNav, adminNav, agentNav } from './_nav';
+import { INavData } from '@coreui/angular'; // ensure interface is imported
 
 @Component({
   selector: 'app-dashboard',
@@ -48,5 +42,24 @@ function isOverflown(element: HTMLElement) {
   ]
 })
 export class DefaultLayoutComponent {
-  public navItems = [...navItems];
+
+  navItems: INavData[] = [];
+
+  constructor() {
+    const role = sessionStorage.getItem('role'); // FIXED
+
+    switch (role) {
+      case 'customer':
+        this.navItems = customerNav;
+        break;
+      case 'admin':
+        this.navItems = adminNav;
+        break;
+      case 'agent':
+        this.navItems = agentNav;
+        break;
+      default:
+        this.navItems = []; // fallback
+    }
+  }
 }

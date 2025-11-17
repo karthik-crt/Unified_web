@@ -1,0 +1,124 @@
+<div class="user-list-container">
+
+    <div class="header-actions">
+        <button class="btn btn-primary" (click)="showAddForm = true">
+            ➕ Add Customer
+        </button>
+
+    </div>
+
+    <div class="table-container">
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let u of users">
+                    <td>{{ u.id }}</td>
+
+                    <td>
+                        <div class="user-info">
+                            <div class="avatar">{{ u.avatar }}</div>
+                            <span>{{ u.name }}</span>
+                        </div>
+                    </td>
+
+                    <td>{{ u.email }}</td>
+
+                    <td>
+                        <span class="role-badge" [ngClass]="{
+                  'admin': u.role === 'admin',
+                  'user': u.role === 'customer',
+                  'moderator': u.role === 'agent'
+                }">
+                            {{ u.role | titlecase }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="status-badge" [ngClass]="u.status === 'Active' ? 'active' : 'inactive'">
+                            {{ u.status }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="actions">
+                            <button class="btn-icon">👁️</button>
+                            <button class="btn-icon">✏️</button>
+                            <button class="btn-icon delete">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class="pagination">
+        <button [disabled]="page === 1" (click)="page = page - 1">Previous</button>
+        <span class="page-info">Page {{ page }} of {{ totalPages }}</span>
+        <button [disabled]="page === totalPages" (click)="page = page + 1">Next</button>
+    </div>
+
+</div>
+<!-- Add Customer Modal -->
+<c-modal [visible]="showAddForm" (visibleChange)="showAddForm = $event" backdrop="static" alignment="center">
+    <c-modal-header class="py-2">
+        <h5 cModalTitle class="fw-bold">Add New Customer</h5>
+        <button cButtonClose (click)="showAddForm = false"></button>
+    </c-modal-header>
+
+    <c-modal-body class="pb-0">
+        <form #customerForm="ngForm" class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">Mobile</label>
+                <input type="text" class="form-control" name="mobile" maxlength="10" [(ngModel)]="newCustomer.mobile"
+                    placeholder="Enter mobile number" required />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" name="full_name" [(ngModel)]="newCustomer.full_name"
+                    placeholder="Enter full name" required />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" [(ngModel)]="newCustomer.email"
+                    placeholder="Enter email" />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" name="dob" [(ngModel)]="newCustomer.dob" />
+            </div>
+
+        </form>
+    </c-modal-body>
+
+    <c-modal-footer class="pt-2 justify-content-end">
+        <button cButton color="success" class="px-4" [disabled]="customerForm.invalid" (click)="submitCustomer()">
+            Save
+        </button>
+
+        <button cButton color="secondary" class="px-4 ms-2" (click)="showAddForm = false">
+            Cancel
+        </button>
+    </c-modal-footer>
+</c-modal>
+
+
+
+<div class="loading-overlay" *ngIf="loading">
+    <div class="loader-premium"></div>
+    <p>Loading please wait...</p>
+</div>

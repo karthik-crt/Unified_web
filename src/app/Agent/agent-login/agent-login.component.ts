@@ -22,16 +22,19 @@ export class AgentLoginComponent {
   regEmail = "";
   regPassword = "";
 
-  showRegister = false;     
+  showRegister = false;
   loading = false;
 
   constructor(
     private api: AgentApiService,
     private toaster: ToastrService,
     private router: Router
-  ) {}
+  ) {
+    sessionStorage.clear();
 
-  
+  }
+
+
   register() {
     if (!this.regEmail || !this.regPassword) {
       this.toaster.error("All fields required");
@@ -56,7 +59,7 @@ export class AgentLoginComponent {
       });
   }
 
-  
+
   login() {
     if (!this.loginEmail || !this.loginPassword) {
       this.toaster.error("All fields required");
@@ -71,14 +74,15 @@ export class AgentLoginComponent {
     }).subscribe({
       next: (res: any) => {
         this.loading = false;
-        console.log("data",res)
+        console.log("data", res)
         this.toaster.success("Login successful");
 
-        sessionStorage.setItem("agent_access", res.access);
-        sessionStorage.setItem("agent_refresh", res.refresh);
+        sessionStorage.setItem("access", res.access);
+        sessionStorage.setItem("refresh", res.refresh);
         sessionStorage.setItem("agentId", res.user.id);
+        sessionStorage.setItem("role", res.user.role)
 
-        // this.router.navigate(["/agent-dashboard"]);
+        this.router.navigate(["/agent-customers"]);
       },
       error: err => {
         this.loading = false;

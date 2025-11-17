@@ -11,7 +11,7 @@ export class AgentApiService {
   private baseUrl = environment.apiUrl;
   private authUrl = environment.authUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Common headers
   private jsonHeaders = new HttpHeaders({
@@ -44,10 +44,17 @@ export class AgentApiService {
       { headers: this.jsonHeaders }
     );
   }
+  getCustomer(): Observable<any> {
+    return this.http.get(this.baseUrl + 'agent/customers/', { headers: this.authHeaders() });
+  }
   getAgentProfile(): Observable<any> {
     return this.http.get(
       this.baseUrl + 'agent/profile/',
       { headers: this.authHeaders() }
     );
   }
+  createCustomer(customer: any) {
+    return this.http.post<any>(this.baseUrl + 'agent/customers/', customer, { headers: this.authHeaders() });
+  }
+
 }

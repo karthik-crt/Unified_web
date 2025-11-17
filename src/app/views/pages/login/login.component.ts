@@ -56,7 +56,9 @@ export class LoginComponent implements OnInit {
     private api: ApiService,
     private toaster: ToastrService,
     private router: Router
-  ) { }
+  ) {
+    sessionStorage.clear();
+  }
 
   ngOnInit(): void {
     console.log("LoginComponent initialized ");
@@ -76,9 +78,10 @@ export class LoginComponent implements OnInit {
         console.log("data", data);
 
         if (data.statusCode === "1") {
-          sessionStorage.setItem("access_token", data.access);
-          sessionStorage.setItem("refresh_token", data.refresh);
+          sessionStorage.setItem("access", data.access);
+          sessionStorage.setItem("refresh", data.refresh);
           sessionStorage.setItem("adminId", data.user.id);
+          sessionStorage.setItem("role", data.user.role)
 
           this.toaster.success("Login successful");
 
@@ -108,7 +111,7 @@ export class LoginComponent implements OnInit {
     };
 
     this.api.changeAdminPassword(body).subscribe({
-      next: (res:any) => {
+      next: (res: any) => {
         if (res.statusCode === '1') {
           this.toaster.success("Password updated successfully!");
 

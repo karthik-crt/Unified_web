@@ -36,7 +36,6 @@ interface Customer {
     GridModule,
     BadgeModule,
     PaginationModule,
-    DatePipe,
   ],
   templateUrl: './manage-customer.component.html',
   styleUrls: ['./manage-customer.component.scss']

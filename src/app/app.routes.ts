@@ -57,9 +57,21 @@ export const routes: Routes = [
           import('../app/Admin/manage-customer/manage-customer.component').then(m => m.ManageCustomerComponent)
       },
       {
+        path: 'agent-customers',
+        loadComponent: () =>
+          import('../app/Agent/agent-manage-customer/agent-manage-customer.component').then(m => m.AgentManageCustomerComponent)
+      },
+      {
         path: 'manage-agents',
         loadComponent: () =>
           import('../app/Admin/manage-agents/manage-agents.component').then(m => m.ManageAgentsComponent)
+      },
+      {
+        path: 'agent-dashboard',
+        loadComponent: () =>
+          import('../app/Agent/agent-dashboard/agent-dashboard.component')
+            .then(m => m.AgentDashboardComponent),
+        data: { title: 'Agent Dashboard' }
       },
       {
         path: 'theme',

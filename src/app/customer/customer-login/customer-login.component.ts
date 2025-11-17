@@ -17,14 +17,18 @@ export class CustomerLoginComponent {
   mobile: string = "";
   otp: string = "";
 
-  otpSent: boolean = false;   
+  otpSent: boolean = false;
   loading: boolean = false;
 
   constructor(
     private api: CustomerApiService,
     private toaster: ToastrService,
     private router: Router
-  ) { }
+  ) {
+
+    sessionStorage.clear();
+
+  }
 
   sendOTP() {
     if (!this.mobile || this.mobile.length !== 10) {
@@ -70,9 +74,10 @@ export class CustomerLoginComponent {
 
           this.toaster.success("Login successful");
 
-          sessionStorage.setItem("access_token", res.access);
-          sessionStorage.setItem("refresh_token", res.refresh);
+          sessionStorage.setItem("access", res.access);
+          sessionStorage.setItem("refresh", res.refresh);
           sessionStorage.setItem("customerId", res.user.id);
+        sessionStorage.setItem("role", res.user.role)
 
           this.router.navigate(['/home']);
 

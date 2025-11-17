@@ -13,7 +13,8 @@ import { DropdownModule, SidebarModule } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { routes } from './app.routes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
-
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { AuthInterceptor } from '../auth-interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(
@@ -26,6 +27,9 @@ export const appConfig: ApplicationConfig = {
       withEnabledBlockingInitialNavigation(),
       withViewTransitions(),
       withHashLocation()
+    ),
+    provideHttpClient(
+      withInterceptors([AuthInterceptor])
     ),
     importProvidersFrom(
       SidebarModule,

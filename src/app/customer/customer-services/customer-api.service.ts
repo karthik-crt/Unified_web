@@ -13,7 +13,7 @@ export class CustomerApiService {
 
   private getAuthHeaders(): HttpHeaders {
     return new HttpHeaders({
-      Authorization: `Bearer ${sessionStorage.getItem('access_token')}`,
+      Authorization: `Bearer ${sessionStorage.getItem('access')}`,
       'Content-Type': 'application/json',
     });
   }
