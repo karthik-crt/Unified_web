@@ -1,0 +1,243 @@
+<div class="min-vh-100 bg-light">
+
+    <!-- HEADER -->
+    <header class="bg-white shadow-sm">
+        <div class="container py-3 d-flex justify-content-between align-items-center">
+
+            <img src="assets/logo.png" height="50" alt="Unified Logo" />
+
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2" (click)="onCallUs()">
+                📞 <strong>Call us</strong>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container py-5">
+
+        <!-- Back Button -->
+        <button class="btn p-0 text-primary mb-4" (click)="onBack()">
+            ← Back To Plans Page
+        </button>
+
+        <div class="row g-4">
+
+            <!-- LEFT SIDE FORM -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm p-4">
+
+                    <!-- Title -->
+                    <h3 class="fw-bold mb-1">
+                        Hi {{ formData.ownerName || 'User' }}! Great Choice
+                    </h3>
+
+                    <p class="text-muted d-flex align-items-center gap-2 mb-4">
+                        💡 <span>65% of stolen two wheelers are never found — secure yours!</span>
+                    </p>
+
+                    <!-- DYNAMIC FORM FIELDS -->
+                    <div class="row g-3 mb-4">
+
+                        <ng-container *ngFor="let field of formFields">
+
+                            <!-- SELECT FIELD -->
+                            <div class="col-md-4" *ngIf="field.type === 'select'">
+                                <label class="form-label">{{ field.label }}</label>
+                                <select class="form-select" [(ngModel)]="formData[field.model]">
+                                    <option *ngFor="let opt of field.options">
+                                        {{ opt }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- READONLY FIELD -->
+                            <div class="col-md-8" *ngIf="field.type === 'readonly'">
+                                <label class="form-label">{{ field.label }}</label>
+
+                                <div class="position-relative">
+                                    <input class="form-control bg-light" [value]="formData[field.model]" />
+
+                                    <button
+                                        class="btn btn-link position-absolute top-50 end-0 translate-middle-y text-primary"
+                                        (click)="onEdit()">
+                                        Edit
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- SIMPLE TEXT, EMAIL, TEL -->
+                            <div class="col-12" *ngIf="field.type !== 'select' && field.type !== 'readonly'">
+                                <label class="form-label">{{ field.label }}</label>
+
+                                <input [type]="field.type" class="form-control" [placeholder]="field.placeholder"
+                                    [(ngModel)]="formData[field.model]" />
+                            </div>
+
+                        </ng-container>
+
+                    </div>
+
+                    <!-- REMEMBER POLICY -->
+                    <p class="fw-semibold mb-2">Do you remember previous policy details?</p>
+
+                    <div class="d-flex gap-4 mb-4">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" value="no" name="rememberPolicy"
+                                [(ngModel)]="formData.rememberPolicy" />
+                            <label class="form-check-label">No</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" value="yes" name="rememberPolicy"
+                                [(ngModel)]="formData.rememberPolicy" />
+                            <label class="form-check-label">Yes</label>
+                        </div>
+                    </div>
+
+                    <!-- EXPIRY DATE -->
+                    <div class="mb-4">
+                        <label class="form-label">Previous Policy Expiry Date</label>
+
+                        <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="DD/MM/YYYY"
+                                [(ngModel)]="formData.expiryDate" />
+
+                            <span class="position-absolute top-50 end-0 translate-middle-y text-muted me-3">
+                                📅
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- MULTI-YEAR PLANS -->
+                    <div class="p-4 border rounded bg-light">
+
+                        <h5 class="fw-bold mb-1">Save More with a Multi-Year Plan</h5>
+                        <p class="text-muted small mb-3">Enjoy discounts + avoid yearly renewal</p>
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6" *ngFor="let plan of plans">
+
+                                <div class="p-3 border rounded cursor-pointer" (click)="selectPlan(plan.id)"
+                                    [class.border-primary]="formData.selectedPlan === plan.id"
+                                    [class.bg-primary-subtle]="formData.selectedPlan === plan.id">
+
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input float-end" [value]="plan.id"
+                                            name="plan" [(ngModel)]="formData.selectedPlan" />
+                                    </div>
+
+                                    <strong>{{ plan.label }} @ ₹{{ plan.price }}</strong>
+
+                                    <span class="badge bg-warning text-dark d-block mt-2" *ngIf="plan.savings">
+                                        🎁 Save ₹{{ plan.savings }}
+                                    </span>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RIGHT SUMMARY -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm p-4 sticky-top" style="top: 20px">
+
+                    <!-- VEHICLE SUMMARY -->
+                    <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
+                        <div>
+                            <h4 class="fw-bold mb-0">{{ vehicleInfo.model }}</h4>
+
+                            <p class="text-muted small mb-0">
+                                {{ vehicleInfo.regNumber }} • Registered {{ vehicleInfo.year }}
+                            </p>
+                        </div>
+
+                        <div class="fs-1">{{ vehicleInfo.icon }}</div>
+                    </div>
+
+                    <!-- INSURER INFO -->
+                    <div class="border-bottom pb-3 mb-3">
+
+                        <div class="d-flex align-items-center gap-2 mb-2">
+
+                            <div [innerHTML]="insurer.logoSVG"></div>
+
+                            <div>
+                                <strong>{{ insurer.name }}</strong>
+                                <div class="small text-muted">
+                                    {{ insurer.type }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="small mb-0">
+                            IDV: <strong>₹{{ insurer.idv }}</strong>
+                        </p>
+                    </div>
+
+                    <!-- PA COVER -->
+                    <div class="border-bottom pb-3 mb-3">
+
+                        <div class="bg-warning-subtle border rounded p-3 d-flex gap-3">
+
+                            🔒
+                            <div>
+                                <p class="small fw-semibold text-warning mb-1">
+                                    Compulsory PA cover of ₹15 Lakh for 1 year @ ₹366
+                                </p>
+                                <p class="text-warning small mb-0">
+                                    Claim may be rejected if missing
+                                </p>
+                            </div>
+
+                            <input type="checkbox" checked disabled />
+
+                        </div>
+
+                        <span class="badge bg-danger mt-2">Mandatory by law</span>
+                    </div>
+
+                    <!-- PREMIUM -->
+                    <div class="d-flex justify-content-between small mb-1">
+                        <span>Plan premium:</span>
+                        <span>₹{{ planPremium }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between small">
+                        <span>GST:</span>
+                        <span>₹{{ gstAmount }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between fw-bold border-top pt-2 mt-2">
+                        <span>Final Premium:</span>
+                        <span class="text-primary">₹{{ totalAmount }}</span>
+                    </div>
+
+
+                    <button class="btn btn-primary w-100 py-2" (click)="onSubmit()">
+                        🔒 Pay securely
+                    </button>
+
+                    <p class="text-center small text-muted mt-2">
+                        By clicking pay, you agree to our
+                        <a class="text-primary">terms & conditions</a>.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- DISCLAIMER -->
+        <div class="card p-3 mt-4 shadow-sm">
+            <button class="btn d-flex justify-content-between w-100 p-0">
+                <strong>Disclaimer</strong>
+                <span class="text-muted">⌄</span>
+            </button>
+        </div>
+
+    </div>
+</div>

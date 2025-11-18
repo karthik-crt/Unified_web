@@ -57,10 +57,18 @@
             <c-row class="g-4 justify-content-center">
 
                 <!-- Vehicle Insurance -->
-                <c-col md="3" sm="6">
+                <c-col md="3" sm="6" class="cl" (click)="action('car')">
                     <c-card class="text-center p-3 shadow-sm category-card">
-                        <img src="assets/images/unified-web/bike.png" height="50" class="mx-auto mb-3" />
-                        <h5 class="fw-bold">Vehicle Insurance</h5>
+                        <img src="assets/images/unified-web/car.png" width="150" height="100" class="mx-auto mb-3" />
+                        <h5 class="fw-bold">Car Insurance</h5>
+                        <p class="text-muted small">Affordable coverage for your vehicle</p>
+                    </c-card>
+                </c-col>
+
+                <c-col md="3" sm="6" class="cl" (click)="action('bike')">
+                    <c-card class="text-center p-3 shadow-sm category-card">
+                        <img src="assets/images/unified-web/bike.png" width="150" height="100" class="mx-auto mb-3" />
+                        <h5 class="fw-bold">Bike Insurance</h5>
                         <p class="text-muted small">Affordable coverage for your vehicle</p>
                     </c-card>
                 </c-col>
@@ -68,7 +76,7 @@
                 <!-- Term Insurance -->
                 <c-col md="3" sm="6">
                     <c-card class="text-center p-3 shadow-sm category-card">
-                        <img src="assets/images/unified-web/term.png" height="50" class="mx-auto mb-3" />
+                        <img src="assets/images/unified-web/term.png" width="150" height="100" class="mx-auto mb-3" />
                         <h5 class="fw-bold">Term Insurance</h5>
                         <p class="text-muted small">Secure your family's financial future</p>
                     </c-card>
@@ -77,7 +85,7 @@
                 <!-- Health Insurance -->
                 <c-col md="3" sm="6">
                     <c-card class="text-center p-3 shadow-sm category-card">
-                        <img src="assets/images/unified-web/health.png" height="50" class="mx-auto mb-3" />
+                        <img src="assets/images/unified-web/health.png" width="150" height="100" class="mx-auto mb-3" />
                         <h5 class="fw-bold">Health Insurance</h5>
                         <p class="text-muted small">Protect your family with best health plans</p>
                     </c-card>

@@ -77,9 +77,9 @@ export class CustomerLoginComponent {
           sessionStorage.setItem("access", res.access);
           sessionStorage.setItem("refresh", res.refresh);
           sessionStorage.setItem("customerId", res.user.id);
-        sessionStorage.setItem("role", res.user.role)
+          sessionStorage.setItem("role", res.user.role)
 
-          this.router.navigate(['/home']);
+          this.router.navigate(['/default']);
 
         } else {
           this.toaster.error(res.error || res.message || "Invalid OTP");

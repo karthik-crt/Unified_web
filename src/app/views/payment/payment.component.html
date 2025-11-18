@@ -1,0 +1,296 @@
+<div class="container-fluid py-4 bg-light">
+
+  <!-- Header -->
+  <header class="bg-white rounded shadow-sm mb-4 p-3 d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+      <img src="assets/logo.png" alt="Unified" height="40">
+      <span class="ms-2 text-muted small fw-medium">HAR FAMILY HOGI INSURED</span>
+    </div>
+
+    <div class="badge bg-danger-subtle text-danger px-3 py-2 rounded">
+      Session expires in <strong>{{ sessionDisplay }}</strong>
+    </div>
+  </header>
+
+  <div class="row g-4" style="padding: 0 15% 0% 15%;">
+
+    <!-- LEFT -->
+    <div class="col-lg-8">
+
+      <!-- Progress -->
+      <div class="bg-white rounded shadow-sm p-4 mb-4">
+        <div class="d-flex align-items-center">
+          <div class="text-success fw-bold d-flex align-items-center">
+            <span class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center me-2"
+              style="width:24px;height:24px;font-size:12px;">✓</span>
+            Payment Mode
+          </div>
+          <div class="mx-4 flex-grow-1 border-top border-2 border-secondary opacity-25"></div>
+          <div class="text-muted">Payment Complete</div>
+        </div>
+      </div>
+
+      <!-- Payment Methods -->
+      <div class="row">
+  <!-- Payment Methods -->
+  <div class="col-md-3">
+    <div class="list-group mb-4">
+      <button class="list-group-item list-group-item-action"
+              [class.active]="selectedMethod === 'upi'"
+              (click)="selectMethod('upi')">
+        <i class="bi bi-upc-scan fs-4 me-3"></i> UPI
+      </button>
+
+      <button class="list-group-item list-group-item-action"
+              [class.active]="selectedMethod === 'debit'"
+              (click)="selectMethod('debit')">
+        <i class="bi bi-credit-card fs-4 me-3"></i> Debit Card
+      </button>
+
+      <button class="list-group-item list-group-item-action"
+              [class.active]="selectedMethod === 'netbanking'"
+              (click)="selectMethod('netbanking')">
+        <i class="bi bi-bank fs-4 me-3"></i> NetBanking
+      </button>
+
+      <button class="list-group-item list-group-item-action"
+              [class.active]="selectedMethod === 'credit'"
+              (click)="selectMethod('credit')">
+        <i class="bi bi-credit-card-2-front fs-4 me-3"></i> Credit Card
+      </button>
+
+      <button class="list-group-item list-group-item-action"
+              [class.active]="selectedMethod === 'wallet'"
+              (click)="selectMethod('wallet')">
+        <i class="bi bi-wallet2 fs-4 me-3"></i> Wallet
+      </button>
+    </div>
+  </div>
+
+  <!-- Payment Section -->
+  <div class="col-md-9">
+
+    <!-- ============================
+          1️⃣  UPI SECTION
+    ============================ -->
+    <div *ngIf="selectedMethod == 'upi'" class="card border">
+      <div class="card-body p-4">
+
+        <h4 class="mb-4">Pay using UPI</h4>
+
+        <div class="row align-items-start g-5">
+
+          <!-- QR -->
+          <div class="col-md-5 text-center">
+            <h6 class="fw-bold">Scan and Pay</h6>
+
+            <div class="my-3 p-3 border rounded bg-white d-inline-block">
+              <img *ngIf="qrCodeData" [src]="qrCodeData" alt="QR Code" width="180">
+            </div>
+
+            <button class="btn btn-primary">View</button>
+          </div>
+
+          <div class="col-md-1 d-flex justify-content-center">
+            <strong>OR</strong>
+          </div>
+
+          <!-- UPI Form -->
+          <div class="col-md-6">
+            <h6 class="fw-bold">Enter UPI ID</h6>
+
+            <form (ngSubmit)="verifyAndPay()">
+              <input type="text" class="form-control form-control-lg mb-2"
+                     placeholder="mobilenumber@upi"
+                     [(ngModel)]="upiId" name="upiId" required>
+
+              <button type="submit" class="btn btn-primary btn-lg w-100">
+                Verify & Pay
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================
+          2️⃣  DEBIT CARD SECTION
+    ============================ -->
+    <div *ngIf="selectedMethod == 'debit'" class="card border p-4">
+      <h4 class="mb-4">Pay using Debit Card</h4>
+
+      <form (ngSubmit)="payWithDebit()">
+
+        <div class="mb-3">
+          <label>Card Number</label>
+          <input type="text" class="form-control" maxlength="16"
+                 [(ngModel)]="debit.cardNumber" name="dCard">
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Expiry</label>
+            <input type="text" class="form-control" placeholder="MM/YY"
+                   [(ngModel)]="debit.expiry" name="dExpiry">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>CVV</label>
+            <input type="password" class="form-control" maxlength="3"
+                   [(ngModel)]="debit.cvv" name="dCvv">
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg w-100">Pay Now</button>
+      </form>
+    </div>
+
+    <!-- ============================
+          3️⃣  NETBANKING SECTION
+    ============================ -->
+    <div *ngIf="selectedMethod == 'netbanking'" class="card border p-4">
+      <h4 class="mb-4">NetBanking</h4>
+
+      <select class="form-select mb-3" [(ngModel)]="selectedBank" name="bank">
+        <option *ngFor="let b of banks" [value]="b">{{ b }}</option>
+      </select>
+
+      <button class="btn btn-primary w-100">Proceed to Bank</button>
+    </div>
+
+    <!-- ============================
+          4️⃣  CREDIT CARD SECTION
+    ============================ -->
+    <div *ngIf="selectedMethod == 'credit'" class="card border p-4">
+      <h4 class="mb-4">Pay using Credit Card</h4>
+
+      <form (ngSubmit)="payWithCredit()">
+
+        <div class="mb-3">
+          <label>Card Number</label>
+          <input type="text" class="form-control" maxlength="16"
+                 [(ngModel)]="credit.cardNumber" name="cCard">
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Expiry</label>
+            <input type="text" class="form-control" placeholder="MM/YY"
+                   [(ngModel)]="credit.expiry" name="cExpiry">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>CVV</label>
+            <input type="password" class="form-control" maxlength="3"
+                   [(ngModel)]="credit.cvv" name="cCvv">
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg w-100">Pay Now</button>
+      </form>
+    </div>
+
+    <!-- ============================
+          5️⃣  WALLET SECTION
+    ============================ -->
+    <div *ngIf="selectedMethod == 'wallet'" class="card border p-4">
+      <h4 class="mb-4">Wallet Payment</h4>
+
+      <div class="list-group">
+        <button class="list-group-item list-group-item-action">Paytm</button>
+        <button class="list-group-item list-group-item-action">PhonePe</button>
+        <button class="list-group-item list-group-item-action">Amazon Pay</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body bg-light">
+
+          <div class="d-flex justify-content-between mb-3">
+            <strong>Order Number</strong>
+            <span class="text-primary fw-bold">PB144760336</span>
+          </div>
+
+          <div class="d-flex justify-content-between py-3 border-bottom dashed">
+            <div class="d-flex align-items-center">
+              <img src="https://www.policybazaar.com/insurance-companies/united-india-car-insurance/images/uiic-logo.png"
+                height="28">
+              <span class="ms-3 small">Premium</span>
+            </div>
+            <strong>₹ 1,090.00</strong>
+          </div>
+
+          <div class="d-flex justify-content-between py-3 border-bottom dashed">
+            <div class="d-flex align-items-center">
+              <img src="https://www.policybazaar.com/images/digit-logo.png" height="28">
+              <span class="ms-3 small">Premium</span>
+            </div>
+            <strong>₹ 366.00</strong>
+          </div>
+
+          <div class="d-flex justify-content-between pt-3 border-top border-primary border-3 mt-3">
+            <strong class="fs-5">Total Premium</strong>
+            <strong class="fs-4 text-primary">₹ 1,456.00</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accordion -->
+      <div class="accordion" id="summaryAccordion">
+
+        <!-- Plan Details -->
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#planDetails">
+              Plan Details
+            </button>
+          </h2>
+
+          <div id="planDetails" class="accordion-collapse collapse">
+            <div class="accordion-body small">
+              <div class="row"><div class="col-6">Insurer</div><div class="col-6 text-end">United India Insurance</div></div>
+              <div class="row"><div class="col-6">Policy Type</div><div class="col-6 text-end">Twowheeler</div></div>
+              <div class="row"><div class="col-6">Order No.</div><div class="col-6 text-end">PB144760336</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proposer -->
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#proposerDetails">
+              Proposer Details
+            </button>
+          </h2>
+
+          <div id="proposerDetails" class="accordion-collapse collapse">
+            <div class="accordion-body small">
+              <div class="row"><div class="col-6">Name</div><div class="col-6 text-end">S R Gnaneswaran</div></div>
+              <div class="row"><div class="col-6">Email</div><div class="col-6 text-end">ku******@gmail.com</div></div>
+              <div class="row"><div class="col-6">Mobile</div><div class="col-6 text-end">86XXXXXX13</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <img src="https://www.policybazaar.com/assets/images/pcvds-certified.png" height="60">
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="text-center mt-5 text-muted small">
+    <a class="text-primary text-decoration-none">Privacy Policy</a> |
+    <a class="text-primary text-decoration-none">Terms & Conditions</a> |
+    <a class="text-primary text-decoration-none">FAQ</a>
+  </footer>
+</div>

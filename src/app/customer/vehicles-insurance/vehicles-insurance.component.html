@@ -1,0 +1,88 @@
+<div class="container">
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <span class="logo-text">Unified</span><span class="logo-bazaar">Insurance</span>
+            <div class="logo-subtitle">HAR FAMILY HOGI INSURED</div>
+        </div>
+        <button class="call-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                </path>
+            </svg>
+            Call us
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <!-- Left Section - Image -->
+            <div class="image-section">
+                <img src="assets/images/unified-web/bike.png"
+                    alt="Insurance Agent" class="agent-image">
+            </div>
+
+            <!-- Right Section - Form -->
+            <div class="form-section">
+                <h1 class="title">Buy your two-wheeler insurance in</h1>
+                <h2 class="subtitle">60 seconds!* ⚡</h2>
+
+                <p class="plan-info">Plan starting <span class="price">@ ₹1.3/day*</span></p>
+
+                <div class="input-wrapper">
+                    <input type="text" [(ngModel)]="bikeNumber" placeholder="Enter your bike number" class="bike-input"
+                        (input)="formatBikeNumber($event)">
+                </div>
+
+                <button class="view-prices-btn" (click)="viewPrices()">
+                    View Prices
+                </button>
+
+                <div class="helper-links">
+                    <a href="#" class="helper-link">Don't have bike number?</a>
+                    <a href="#" class="helper-link">Buying a new bike?</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stat-card">
+            <div class="rating">
+                <span class="stars">⭐⭐⭐⭐⭐</span>
+            </div>
+            <p class="stat-label">We are rated</p>
+            <p class="stat-source">^Source - Google Review Rating</p>
+        </div>
+
+        <div class="stat-card">
+            <h3 class="stat-number">1.2 <span class="stat-unit">crore</span></h3>
+            <p class="stat-label">Bikes insured</p>
+        </div>
+
+        <div class="stat-card">
+            <h3 class="stat-number">1.7 <span class="stat-unit">crore</span></h3>
+            <p class="stat-label">Policies sold</p>
+        </div>
+
+        <div class="stat-card">
+            <h3 class="stat-number">20</h3>
+            <p class="stat-label">Insurance partners</p>
+        </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer" (click)="toggleDisclaimer()">
+        <div class="disclaimer-header">
+            <span>Disclaimer</span>
+            <span class="arrow">{{ showDisclaimer ? '▲' : '▼' }}</span>
+        </div>
+        <div class="disclaimer-content" [class.show]="showDisclaimer">
+            <p>*Premium shown is for illustrative purposes only. Actual premium may vary based on vehicle details,
+                coverage selected, and insurer underwriting guidelines.</p>
+        </div>
+    </div>
+</div>

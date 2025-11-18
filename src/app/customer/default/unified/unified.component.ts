@@ -30,4 +30,9 @@ constructor(private router : Router){}
   loginPage() {
     this.router.navigate(['/login-customer'])
   }
+  action(type :string){
+    console.log("/"+type)
+    this.router.navigate(['/'+type])
+
+  }
 }

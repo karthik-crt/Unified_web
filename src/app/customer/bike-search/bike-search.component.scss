@@ -1,0 +1,84 @@
+body {
+    background-color: #ffffff;
+}
+
+.container-xxl {
+    max-width: 100%;
+}
+
+.logo-square {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.plan-highlight {
+    position: absolute;
+    top: -8px;
+    right: 16px;
+    background-color: #fb923c;
+    color: white;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 4px;
+}
+
+.check-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.brand-logo {
+    width: 32px;
+    height: 32px;
+    background-color: #2563eb;
+    border-radius: 50%;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-check-input:checked {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.btn-blue {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: white;
+}
+
+.btn-blue:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+    color: white;
+}
+
+.btn-outline-blue {
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+.btn-outline-blue:hover {
+    background-color: #2563eb;
+    color: white;
+}
+
+.col-lg-3 {
+    flex: 0 0 auto;
+    width: 20%;
+}
+
+.col-lg-6 {
+    flex: 0 0 auto;
+    width: 60%;
+}

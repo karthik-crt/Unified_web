@@ -121,6 +121,26 @@ export const routes: Routes = [
     ]
   },
 
+  {
+    path: 'bike',
+    loadComponent: () =>
+      import('../app/customer/vehicles-insurance/vehicles-insurance.component').then(m => m.VehiclesInsuranceComponent)
+  },
+  {
+    path: 'bike-result',
+    loadComponent: () =>
+      import('../app/customer/bike-search/bike-search.component').then(m => m.BikeSearchComponent)
+  },
+  {
+    path: 'inquery-form',
+    loadComponent: () =>
+      import('../app/views/inquery-form/inquery-form.component').then(m => m.InqueryFormComponent)
+  },
+  {
+    path: 'payment',
+    loadComponent: () =>
+      import('../app/views/payment/payment.component').then(m => m.PaymentComponent)
+  },
   // System pages
   {
     path: '404',
