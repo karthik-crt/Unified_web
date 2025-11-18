@@ -11,9 +11,10 @@ export class ApiService {
   authurl = environment.authUrl;
   constructor(private http: HttpClient) { }
   refreshAccessToken() {
-    return this.http.post<any>(this.authurl + 'token/refresh/', {
-      refresh: sessionStorage.getItem('refresh')
-    }).pipe(
+    const body={
+      "refresh":sessionStorage.getItem('refresh')
+    }
+    return this.http.post<any>(this.authurl + 'token/refresh/', body).pipe(
       tap((response) => {
         sessionStorage.setItem('access', response.access);
         if (response.refresh) {
