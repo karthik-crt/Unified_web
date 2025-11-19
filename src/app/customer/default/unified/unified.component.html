@@ -44,7 +44,8 @@
 
 
                 <c-col md="6" class="text-center">
-                    <img src="assets/images/unified-web/hero.png" alt="Insurance Hero" class="img-fluid rounded shadow" />
+                    <img src="assets/images/unified-web/hero.png" alt="Insurance Hero"
+                        class="img-fluid rounded shadow" />
                 </c-col>
             </c-row>
         </c-container>
@@ -57,7 +58,7 @@
             <c-row class="g-4 justify-content-center">
 
                 <!-- Vehicle Insurance -->
-                <c-col md="3" sm="6" class="cl" (click)="action('car')">
+                <c-col md="3" sm="6" class="cl" (click)="action('car-search')">
                     <c-card class="text-center p-3 shadow-sm category-card">
                         <img src="assets/images/unified-web/car.png" width="150" height="100" class="mx-auto mb-3" />
                         <h5 class="fw-bold">Car Insurance</h5>
@@ -369,3 +370,5 @@
         </c-container>
     </footer>
 </div>
+<app-login-popup *ngIf="showLoginPopup" (close)="closePopup()">
+</app-login-popup>

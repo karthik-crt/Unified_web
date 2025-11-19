@@ -1,4 +1,29 @@
+// .card {
+//   border-radius: 16px;
+//   box-shadow: 0 0 12px rgba(0,0,0,0.1);
+// }
 .card {
-  border-radius: 16px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  border-radius: 16px !important;
+  background: #ffffffcc; /* slight transparency */
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+input.form-control {
+  height: 46px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+input.form-control:focus {
+  border-color: #6d4cff;
+  box-shadow: 0 0 0 3px rgba(109, 76, 255, 0.15);
+}
+
+button.btn-primary,
+button.btn-success {
+  height: 46px;
+  border-radius: 10px;
+  font-weight: 600;
 }

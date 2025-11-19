@@ -80,6 +80,7 @@ export class CustomerLoginComponent {
           sessionStorage.setItem("role", res.user.role)
 
           this.router.navigate(['/default']);
+          window.location.reload()
 
         } else {
           this.toaster.error(res.error || res.message || "Invalid OTP");

@@ -127,6 +127,11 @@ export const routes: Routes = [
       import('../app/customer/vehicles-insurance/vehicles-insurance.component').then(m => m.VehiclesInsuranceComponent)
   },
   {
+    path: 'car-search',
+    loadComponent: () =>
+      import('../app/customer/car-search/car-search.component').then(m => m.CarSearchComponent)
+  },
+  {
     path: 'bike-result',
     loadComponent: () =>
       import('../app/customer/bike-search/bike-search.component').then(m => m.BikeSearchComponent)
@@ -172,5 +177,5 @@ export const routes: Routes = [
   },
 
   // Catch-all → customer-login
-  { path: '**', redirectTo: 'customer-login' }
+  { path: '**', redirectTo: 'default' }
 ];

@@ -1,0 +1,389 @@
+.car-search-wrapper {
+  width: 100%;
+  height: 100vh;
+  background: #eef5ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.left-section {
+  flex: 0.6;
+  display: flex;
+  justify-content: center;
+
+  .kapil-img {
+    width: 380px;
+    height: auto;
+  }
+}
+
+.right-section {
+  flex: 0.7;
+  display: flex;
+  justify-content: center;
+}
+
+.card-box {
+  background: #fff;
+  padding: 40px 50px;
+  border-radius: 16px;
+  box-shadow: 0px 4px 16px rgba(0,0,0,0.08);
+  width: 480px;
+  text-align: center;
+
+  h2 {
+    font-size: 26px;
+    line-height: 34px;
+
+    .highlight {
+      color: #0038ff;
+      font-weight: 700;
+    }
+  }
+
+  .renew-line {
+    margin: 10px 0 25px;
+    font-size: 14px;
+  }
+
+  .input-group {
+    margin-bottom: 20px;
+
+    input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 15px;
+
+      &:focus {
+        border-color: #0057ff;
+        outline: none;
+      }
+    }
+  }
+
+  .view-btn {
+    background: #ff5622;
+    color: #fff;
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background: #e64a1d;
+    }
+  }
+
+  .brand-new {
+    margin-top: 18px;
+    font-size: 14px;
+
+    a {
+      color: #0057ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  }
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #f8f9ff 0%, #ffffff 100%);
+    max-width: none;      /* Important */
+    // margin: 0 auto;         /* Centers everything */
+    padding: 0 1rem;        /* Avoids overflow */
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.logo {
+    // display: flex;
+    flex-direction: column;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e40af;
+    font-family: Georgia, serif;
+}
+
+.logo-bazaar {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e40af;
+    font-family: Georgia, serif;
+}
+
+.logo-subtitle {
+    font-size: 0.6rem;
+    color: #1e40af;
+    letter-spacing: 0.5px;
+    margin-top: -4px;
+}
+
+.call-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.5rem;
+    background: white;
+    color: #2563eb;
+    border: 2px solid #2563eb;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.call-btn:hover {
+    background: #2563eb;
+    color: white;
+}
+
+.main-content {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.image-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.agent-image {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.form-section {
+    padding: 2rem 0;
+}
+
+.title {
+    font-size: 2rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 2.5rem;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.plan-info {
+    color: #6b7280;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+.price {
+    color: #7c3aed;
+    font-weight: 600;
+}
+
+.input-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+.bike-input {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f9fafb;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.bike-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    background: white;
+}
+
+.view-prices-btn {
+    width: 100%;
+    padding: 1rem;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.view-prices-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.helper-links {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.helper-link {
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.helper-link:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card {
+    text-align: center;
+    padding: 1rem;
+}
+
+.rating {
+    margin-bottom: 0.5rem;
+}
+
+.stars {
+    font-size: 1.2rem;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.stat-unit {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.stat-label {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+.stat-source {
+    color: #9ca3af;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.disclaimer {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.disclaimer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #374151;
+}
+
+.arrow {
+    color: #6b7280;
+    transition: transform 0.3s ease;
+}
+
+.disclaimer-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 1rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+}
+
+.disclaimer-content.show {
+    max-height: 200px;
+    padding: 1rem;
+}
+
+.disclaimer-content p {
+    color: #6b7280;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .stats-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,10 @@
+<!-- Background overlay -->
+<div class="overlay" (click)="closePopup()"></div>
+
+<!-- Popup window -->
+<div class="popup-box">
+  <button class="close-btn" (click)="closePopup()">✕</button>
+
+  <!-- REUSE your existing login screen -->
+  <app-customer-login></app-customer-login>
+</div>

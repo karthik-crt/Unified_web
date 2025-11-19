@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { LoginPopupComponent } from '../../login-popup/login-popup.component'
+import { CommonModule } from '@angular/common';
 // CoreUI Standalone Components
 import {
   ContainerComponent,
@@ -23,16 +24,23 @@ import {
     ColComponent,
     CardComponent,
     ButtonDirective,
+    LoginPopupComponent,
+    CommonModule
   ],
 })
 export class UnifiedComponent {
-constructor(private router : Router){}
+  constructor(private router: Router) { }
+  showLoginPopup = false;
   loginPage() {
-    this.router.navigate(['/login-customer'])
+    this.showLoginPopup = true;
   }
-  action(type :string){
-    console.log("/"+type)
-    this.router.navigate(['/'+type])
+
+  closePopup() {
+    this.showLoginPopup = false;
+  }
+  action(type: string) {
+    console.log("/" + type)
+    this.router.navigate(['/' + type])
 
   }
 }
