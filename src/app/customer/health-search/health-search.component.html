@@ -1,0 +1,224 @@
+<div class="page-container">
+
+  <!-- Top progress stepper (visible on all steps) -->
+  <div class="wizard-top">
+    <div class="stepper">
+      <div class="step" *ngFor="let s of [1,2,3,4,5,6]; let i = index" [class.active]="currentStep === s"
+        [class.done]="s < currentStep" (click)="goTo(s)">
+        <div class="step-num">{{ s }}</div>
+        <div class="step-label">
+          <ng-container [ngSwitch]="s">
+            <span *ngSwitchCase="1">Members</span>
+            <span *ngSwitchCase="2">Age</span>
+            <span *ngSwitchCase="3">City</span>
+            <span *ngSwitchCase="4">Details</span>
+            <span *ngSwitchCase="5">Medical</span>
+            <span *ngSwitchCase="6">Plans</span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- Step 1: Members (Stats bar shown only here) --- -->
+  <section *ngIf="currentStep === 1" class="hero-section">
+    <div class="offer-banner">
+      <h2>Get 0% GST now with upto 25% extra discount*</h2>
+      <div class="gender-toggle">
+        <button [class.active]="selectedGender === 'male'" (click)="selectGender('male')">
+          Male
+        </button>
+
+        <button [class.active]="selectedGender === 'female'" (click)="selectGender('female')">
+          Female
+        </button>
+      </div>
+
+    </div>
+
+    <div class="member-selection">
+      <p>Select members you want to insure</p>
+      <div class="member-grid">
+        <div class="member-card" *ngFor="let member of familyMembers; let i = index" [class.selected]="member.selected"
+          (click)="toggleMember(i)">
+          <div class="icon" style="margin-right: 30%;">{{ member.icon }}</div>
+          <br>
+          <span>{{ member.label }}</span>
+          <div class="check-mark" *ngIf="member.selected">✔</div>
+        </div>
+      </div>
+
+      <div class="actions-row">
+        <button class="btn-continue" (click)="next()">Continue ></button>
+      </div>
+    </div>
+
+    <!-- Stats bar shown only on step 1 -->
+    <section class="stats-bar">
+      <div class="stat-item">
+        <span class="stars">⭐⭐⭐⭐⭐</span>
+        <p>Rated 4.8/5</p>
+      </div>
+      <div class="stat-item">
+        <strong>1.2 crore</strong>
+        <p>Registered Consumers</p>
+      </div>
+      <div class="stat-item">
+        <strong>51</strong>
+        <p>Insurance Partners</p>
+      </div>
+    </section>
+  </section>
+
+  <!-- --- Step 2: Select Age --- -->
+  <section *ngIf="currentStep === 2" class="wizard-step clean-step">
+    <h2 class="step-title">Select Age for each chosen member</h2>
+    <div class="age-grid">
+      <div *ngFor="let m of selectedMembers()" class="age-card">
+        <label class="age-label">{{ m.label }}</label>
+        <input type="number" min="0" [(ngModel)]="memberAges[m.label]" placeholder="Age" class="input-box" />
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-secondary" (click)="back()">‹ Back</button>
+      <button class="btn-continue" (click)="next()">Continue ></button>
+    </div>
+  </section>
+
+  <!-- --- Step 3: Select City --- -->
+  <section *ngIf="currentStep === 3" class="wizard-step clean-step">
+    <h2 class="step-title">Select City</h2>
+    <input type="text" [(ngModel)]="city" placeholder="Enter city or pincode" class="input-box" />
+    <div class="hint">We use city to fetch city-specific rates and hospitals.</div>
+
+    <div class="nav-row">
+      <button class="btn-secondary" (click)="back()">‹ Back</button>
+      <button class="btn-continue" (click)="next()">Continue ></button>
+    </div>
+  </section>
+
+  <!-- --- Step 4: Save Progress (Name + Mobile + OTP UI) --- -->
+  <section *ngIf="currentStep === 4" class="wizard-step clean-step">
+    <h2 class="step-title">Save Your Progress</h2>
+
+    <input class="input-box" [(ngModel)]="userName" placeholder="Full Name" />
+    <input class="input-box" [(ngModel)]="mobile" placeholder="Mobile Number" maxlength="10" />
+    <div class="otp-row">
+      <input class="input-box otp-input" [(ngModel)]="otp" placeholder="Enter OTP (mock)" />
+      <button class="btn-ghost" (click)="sendOtp()">Send OTP</button>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-secondary" (click)="back()">‹ Back</button>
+      <button class="btn-continue" (click)="verifyOtp()">Verify & Continue ></button>
+    </div>
+
+    <div class="save-resume">
+      <button class="btn-link" (click)="saveToStorage()">Save & Resume Later</button>
+      <button class="btn-link" (click)="clearStorage()">Clear Saved</button>
+    </div>
+  </section>
+
+  <!-- --- Step 5: Medical History (PED) --- -->
+  <section *ngIf="currentStep === 5" class="wizard-step clean-step">
+    <h2 class="step-title">Medical History (PED)</h2>
+    <div class="disease-list">
+      <div class="disease-item" *ngFor="let d of diseases; let i = index" [class.selected]="d.selected"
+        (click)="toggleDisease(i)">
+        {{ d.name }}
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-secondary" (click)="back()">‹ Back</button>
+      <button class="btn-continue" (click)="next()">See Plans ></button>
+    </div>
+  </section>
+
+  
+  <!-- --- Step 6: Plans / Results --- -->
+  <section *ngIf="currentStep === 6" class="wizard-step clean-step plans-wrapper">
+
+    <div class="plans-header">
+      <div>
+        <h2 class="step-title">Recommended Plans</h2>
+        <p class="sub">Showing plans tailored for you</p>
+      </div>
+
+      <div class="controls">
+        <input type="text" class="input-search" placeholder="Search plans" [(ngModel)]="planSearch" />
+        <select [(ngModel)]="planSort" class="input-sort">
+          <option value="recommended">Recommended</option>
+          <option value="low">Premium: Low to High</option>
+          <option value="high">Premium: High to Low</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="plans-layout">
+
+      <!-- LEFT SIDE — PLANS LIST -->
+      <div class="plans-left">
+        <div class="plan-card" *ngFor="let p of filteredPlans()">
+
+          <div class="plan-head">
+            <div class="logo">{{ p.companyName.charAt(0) }}</div>
+
+            <div class="meta">
+              <div class="company">{{ p.companyName }}</div>
+              <div class="plan-name">{{ p.planName }}</div>
+            </div>
+
+            <div class="price">
+              <div class="amount">₹{{ p.premium }}</div>
+              <div class="freq">/{{ p.premiumFrequency }}</div>
+            </div>
+          </div>
+
+          <ul class="features">
+            <li *ngFor="let f of p.features">{{ f }}</li>
+          </ul>
+
+          <div class="plan-actions">
+            <button class="btn-outline">View Details</button>
+            <button class="btn-continue" (click)="selectPlan(p)">Buy Now</button>
+          </div>
+
+        </div>
+
+        <div class="load-more">
+          <button class="btn-link">Load more plans</button>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE — ADVISOR SIDEBAR -->
+      <aside class="plans-right">
+        <div class="sidebar-card">
+          <img src="assets/images/unified-web/Health_plans.png" class="side-img">
+        </div>
+
+        <div class="sidebar-card advisor-box">
+          <div class="avatar">B</div>
+          <div>
+            <div class="advisor-name">Assigned Advisor</div>
+            <div class="small">Chat or call for personalised help</div>
+            <button class="btn-continue small-btn">Talk to Advisor</button>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <h4>Why choose these plans?</h4>
+          <p class="small">Best hospitals, claim support & pricing compared for you.</p>
+        </div>
+      </aside>
+
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-secondary" (click)="back()">‹ Back</button>
+    </div>
+  </section>
+
+
+</div>

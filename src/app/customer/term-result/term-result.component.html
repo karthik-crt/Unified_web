@@ -1,0 +1,86 @@
+<div class="results-container">
+  <!-- Header Filters -->
+  <div class="header-bar">
+    <div class="filters">
+      <button class="filter-btn active">Life cover <span>₹3 Cr</span></button>
+      <button class="filter-btn">Cover till Age <span>60 Yrs</span></button>
+      <button class="filter-btn">Monthly</button>
+      <button class="filter-btn">Yearly →</button>
+    </div>
+    <div class="actions">
+      <span class="save-badge">Save upto 56%</span>
+      <button class="premium-btn">View Premium from 2nd year</button>
+    </div>
+  </div>
+
+  <!-- Result Cards -->
+  <div class="cards-list">
+    <!-- Card 1 - Top Recommended -->
+    <div class="plan-card recommended">
+      <div class="badge-top">Lowest Price Guarantee</div>
+      <div class="card-header">
+        <img src="https://via.placeholder.com/80x30/1F3574/FFFFFF?text=ICICI+Pru" alt="ICICI Pru">
+        <div class="claim-info">
+          <strong>Claim settled</strong><br>
+          <span class="highlight-green">99.3% ⊙</span>
+        </div>
+        <button class="wishlist">♡</button>
+      </div>
+
+      <div class="card-body">
+        <div class="feature">Full refund of premium ✓</div>
+        <div class="feature">3 Free Add-ons ✓</div>
+        <div class="discount">17% Discount Included</div>
+        <div class="cancer-cover">Cancer Cover Available ⊙</div>
+      </div>
+
+      <div class="price-section">
+        <div class="price">₹1,322<span class="per-month">/month</span></div>
+        <div class="old-price">₹1,561 incl GST</div>
+        <div class="saving">Online Saving ₹281 Ko</div>
+      </div>
+
+      <button class="buy-btn" (click)="PaymentPage()">Buy This Plan</button>
+      <a href="#" class="plan-details">Plan Details ↓</a>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="plan-card">
+      <div class="card-header">
+        <img src="https://via.placeholder.com/80x30/D32F2F/FFFFFF?text=HDFC+Life" alt="HDFC Life">
+        <div class="claim-info">
+          <strong>Claim settled</strong><br>
+          <span class="highlight-green">99.7% ⊙</span>
+        </div>
+        <button class="wishlist">♡</button>
+      </div>
+
+      <div class="card-body">
+        <div class="feature highlight">You get min ₹5.5L back during 48-55 yrs on plan exit</div>
+        <div class="feature">Full refund of premium ✓</div>
+        <div class="discount">15% Discount Included</div>
+      </div>
+
+      <div class="price-section">
+        <div class="price">₹1,499<span class="per-month">/month</span></div>
+        <div class="old-price">₹1,763 incl GST</div>
+      </div>
+
+      <button class="buy-btn" (click)="PaymentPage()">Buy This Plan</button>
+    </div>
+
+    <!-- Add more cards as needed -->
+  </div>
+
+  <!-- Sidebar Info -->
+  <div class="sidebar">
+    <div class="info-box">
+      <h4>Why Term Insurance?</h4>
+      <p>High coverage at Low premium</p>
+    </div>
+    <div class="info-box">
+      <h4>Policybazaar Guarantees</h4>
+      <p>Lowest Price Guarantee | Free dedicated claim assistance</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<div class="container">
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <h2>Unified <span class="badge">HBAR FAMILY HOGI INSURED</span></h2>
+    </div>
+    <div class="header-actions">
+      <button class="btn-outline">Claim Assistance</button>
+      <button class="btn-outline">Talk to Expert</button>
+    </div>
+  </header>
+
+  <!-- Main Card -->
+  <div class="card">
+    <div class="offer">
+      <h1>₹1 Crore life cover starting from <strong>₹400/month<sup>+</sup></strong></h1>
+      <div class="gst-badge">
+        GST Bachat Utsav <span>18% GST</span> <strong>Now 0%</strong>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <!-- Gender Toggle -->
+      <div class="gender-toggle">
+        <button [class.active]="gender === 'Male'" (click)="gender = 'Male'" class="gender-btn">Male</button>
+        <button [class.active]="gender === 'Female'" (click)="gender = 'Female'" class="gender-btn">Female</button>
+      </div>
+
+      <!-- Form Fields -->
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Enter Your Name" [(ngModel)]="name" />
+      </div>
+
+      <div class="form-group">
+        <label>Date of Birth</label>
+        <input type="date" [(ngModel)]="dob" (change)="onDobChange()" />
+      </div>
+
+      <div class="age-info" *ngIf="age !== null">
+        <p>Age: <strong>{{ age }}</strong> years</p>
+        <p>Days until next birthday: <strong>{{ daysToBirthday }}</strong> days</p>
+      </div>
+
+
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <div class="mobile-input">
+          <select>
+            <option>India +91</option>
+          </select>
+          <input type="tel" placeholder="Enter Mobile Number" [(ngModel)]="mobile" />
+        </div>
+      </div>
+
+      <!-- View Plans Button -->
+      <button class="btn-primary" (click)="viewPlans()">View Plans</button>
+
+      <!-- Trust Note -->
+      <div class="trust-note">
+        <span>Only certified Unified expert will assist you</span>
+      </div>
+
+      <p class="terms">
+        By clicking, you agree to our
+        <a href="#">Privacy Policy</a>,
+        <a href="#">Terms of Use</a> &
+        <a href="#">Disclaimers</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer Stats -->
+  <footer class="footer">
+    <p>Unified is one of India's leading digital insurance platform</p>
+    <div class="stats">
+      <div class="stat">
+        <span class="stars">★★★★☆</span>
+      </div>
+      <div class="stat">12.02 Crore<br><small>Registered Consumers</small></div>
+      <div class="stat">51<br><small>Insurance Partners</small></div>
+      <div class="stat">5.9 Crore<br><small>Policies Sold</small></div>
+    </div>
+  </footer>
+</div>

@@ -175,7 +175,19 @@ export const routes: Routes = [
         .then(m => m.RegisterComponent),
     data: { title: 'Register' }
   },
-
+  // app.routes.ts or wherever you declare routes
+  {
+    path: 'health-insurance',
+    loadComponent: () => import('./customer/health-search/health-search.component').then(m => m.HealthSearchComponent)
+  },
+  {
+    path: 'term-search',
+    loadComponent: () => import('./customer/term-search/term-search.component').then(m => m.TermSearchComponent)
+  },
+  {
+    path: 'term-result',
+    loadComponent: () => import('./customer/term-result/term-result.component').then(m => m.TermResultComponent)
+  },
   // Catch-all → customer-login
   { path: '**', redirectTo: 'default' }
 ];
