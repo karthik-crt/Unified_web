@@ -2,17 +2,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment'
 import { map, Observable, tap } from 'rxjs';
-
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   url = environment.apiUrl;
   authurl = environment.authUrl;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
   refreshAccessToken() {
-    const body={
-      "refresh":sessionStorage.getItem('refresh')
+    const body = {
+      "refresh": sessionStorage.getItem('refresh')
     }
     return this.http.post<any>(this.authurl + 'token/refresh/', body).pipe(
       tap((response) => {
@@ -61,5 +61,36 @@ export class ApiService {
   getAgentList(): Observable<any> {
     return this.http.get(this.url + 'admin/users/?role=agent', { headers: this.getAuthHeaders() });
   }
+
+  logout() {
+    const refresh = sessionStorage.getItem('refresh');
+
+    // No refresh token — just clear session and redirect
+    if (!refresh) {
+        console.log("!")
+
+      this.clearSession();
+      return;
+    }
+
+    this.http.post(`${this.authurl}logout/`, { refresh }).subscribe({
+      next: () => {
+        console.log("next")
+        this.clearSession();
+      },
+      error: () => {
+        console.log("error")
+
+        // Even if backend fails, destroy session
+        this.clearSession();
+      }
+    });
+  }
+
+  private clearSession() {
+    sessionStorage.clear();
+    this.router.navigate(['/login']);
+  }
+
 
 }

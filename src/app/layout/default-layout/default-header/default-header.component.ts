@@ -23,6 +23,7 @@ import {
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
+import { ApiService } from '../../../../services/api.service';
 
 @Component({
   selector: 'app-default-header',
@@ -45,7 +46,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
     return this.colorModes.find(mode => mode.name === currentMode)?.icon ?? 'cilSun';
   });
 
-  constructor(private router :Router) {
+  constructor(private router :Router,private api : ApiService) {
     super();
   }
 
@@ -127,6 +128,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
   ];
 logout(){
   console.log("logout")
-  this.router.navigate(['/login'])
+  this.api.logout()
+  // this.router.navigate(['/login'])
 }
 }
