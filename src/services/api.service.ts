@@ -73,6 +73,12 @@ export class ApiService {
   getSingleAgent(id: any): Observable<any> {
     return this.http.get(this.url + `admin/agents/${id}/`, { headers: this.getAuthHeaders() });
   }
+  updateAgent(id: any, data: any): Observable<any> {
+    return this.http.patch(this.url + `admin/agents/${id}/`, data, { headers: this.getAuthHeaders() });
+  }
+  deleteAgent(id: any): Observable<any> {
+    return this.http.delete(this.url + `admin/agents/${id}/`, { headers: this.getAuthHeaders() });
+  }
   getUsers(params: any): Observable<any> {
     return this.http.get(this.url + 'admin/users/', { headers: this.getAuthHeaders(), params });
   }
@@ -81,7 +87,7 @@ export class ApiService {
 
     // No refresh token — just clear session and redirect
     if (!refresh) {
-        console.log("!")
+      console.log("!")
 
       this.clearSession();
       return;

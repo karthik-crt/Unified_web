@@ -7,6 +7,7 @@ import {
 } from '@coreui/angular';
 import { ApiService } from '../../../services/api.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-manage-agents',
@@ -92,6 +93,55 @@ export class ManageAgentsComponent implements OnInit {
     this.page = 1;
     this.getUsers();
   }
+  editUser(user: any) {
+    this.router.navigate(['/edit-agent', user.id]);
+  }
+  confirmDelete(user: any) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `Delete agent "${user.name}"? This action cannot be undone.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteAgent(user.id);
+      }
+    });
+  }
+deleteAgent(id: any) {
+  this.loading = true;
+
+  this.api.deleteAgent(id).subscribe({
+    next: (res) => {
+      this.loading = false;
+
+      if (res.StatusCode === "1") {
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Agent has been removed.',
+          icon: 'success',
+          timer: 1500,
+          showConfirmButton: false
+        });
+
+        this.getUsers(); // refresh list
+      }
+    },
+    error: () => {
+      this.loading = false;
+
+      Swal.fire({
+        title: 'Error',
+        text: 'Unable to delete the agent. Please try again.',
+        icon: 'error'
+      });
+    }
+  });
+}
 
   getAvatar(user: any) {
     const text = user.email || user.mobile || "NA";
@@ -106,6 +156,6 @@ export class ManageAgentsComponent implements OnInit {
     return initials || "U";
   }
   viewUser(user: any) {
-  this.router.navigate(['/agent-details', user.id]);
-}
+    this.router.navigate(['/agent-details', user.id]);
+  }
 }

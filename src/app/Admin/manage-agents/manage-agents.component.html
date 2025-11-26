@@ -74,8 +74,8 @@
                     <td>
                         <div class="actions">
                             <button class="btn-icon" (click)="viewUser(u)">👁️</button>
-                            <button class="btn-icon">✏️</button>
-                            <button class="btn-icon delete">🗑️</button>
+                            <button class="btn-icon" (click)="editUser(u)">✏️</button>
+                            <button class="btn-icon delete" (click)="confirmDelete(u)">🗑️</button>
                         </div>
                     </td>
                 </tr>

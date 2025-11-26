@@ -1,0 +1,73 @@
+<div class="loading-container" *ngIf="loading">
+  <div class="spinner"></div>
+  <p>Loading user data...</p>
+</div>
+
+<div class="edit-container" *ngIf="!loading">
+  <div class="header">
+    <h2 class="title">Edit Agent</h2>
+    <p class="subtitle">Update agent information and preferences</p>
+  </div>
+
+  <form (ngSubmit)="saveUser()" class="user-form">
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">
+        <span class="label-text">Email Address</span>
+        <span class="required">*</span>
+      </label>
+      <input 
+        type="email" 
+        id="email"
+        [(ngModel)]="form.email" 
+        name="email" 
+        placeholder="Enter email address"
+        required 
+      />
+    </div>
+
+    <!-- Mobile -->
+    <div class="form-group">
+      <label for="mobile">
+        <span class="label-text">Mobile Number</span>
+        <span class="required">*</span>
+      </label>
+      <input 
+        type="text" 
+        id="mobile"
+        [(ngModel)]="form.mobile" 
+        name="mobile" 
+        placeholder="Enter mobile number"
+        required 
+      />
+    </div>
+
+    <!-- Active Toggle -->
+    <div class="form-group">
+      <label for="status">
+        <span class="label-text">Account Status</span>
+        <span class="required">*</span>
+      </label>
+      <select id="status" [(ngModel)]="form.is_active" name="status">
+        <option [value]="true">Active</option>
+        <option [value]="false">Inactive</option>
+      </select>
+      <small class="help-text">Inactive agents cannot log in to the system</small>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-save" [disabled]="saving">
+        <span *ngIf="!saving">💾 Save Changes</span>
+        <span *ngIf="saving">
+          <span class="btn-spinner"></span>
+          Saving...
+        </span>
+      </button>
+      <button type="button" class="btn btn-cancel" (click)="cancel()" [disabled]="saving">
+        ✕ Cancel
+      </button>
+    </div>
+
+  </form>
+</div>
