@@ -44,9 +44,12 @@
 
                     <td>
                         <div class="actions">
-                            <button class="btn-icon">👁️</button>
-                            <button class="btn-icon">✏️</button>
-                            <button class="btn-icon delete">🗑️</button>
+                            <button class="btn-icon" [routerLink]="['/users', u.id]" aria-label="View user"
+                                title="View">
+                                👁️
+                            </button>
+                            <button class="btn-icon" (click)="editUser(u)">✏️</button>
+                            <button class="btn-icon delete" (click)="deleteUser(u)">🗑️</button>
                         </div>
                     </td>
                 </tr>
@@ -63,7 +66,6 @@
 
 </div>
 <div class="loading-overlay" *ngIf="loading">
-  <div class="loader-premium"></div> 
-  <p>Loading please wait...</p>
+    <div class="loader-premium"></div>
+    <p>Loading please wait...</p>
 </div>
-

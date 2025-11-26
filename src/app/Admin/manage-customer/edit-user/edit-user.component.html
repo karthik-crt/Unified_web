@@ -1,0 +1,39 @@
+<div class="edit-container" *ngIf="loading">
+  Loading user data...
+</div>
+
+<div class="edit-container" *ngIf="!loading">
+  <h2>Edit User</h2>
+
+  <form (ngSubmit)="saveUser()">
+
+    <!-- Email -->
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="form.email" name="email" required />
+    </div>
+
+    <!-- Mobile -->
+    <div class="form-group">
+      <label>Mobile</label>
+      <input type="text" [(ngModel)]="form.mobile" name="mobile" required />
+    </div>
+
+    <!-- Active Toggle -->
+    <div class="form-group row">
+      <label>Status</label>
+      <select [(ngModel)]="form.is_active" name="status">
+        <option [value]="true">Active</option>
+        <option [value]="false">Inactive</option>
+      </select>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn save" [disabled]="saving">
+        {{ saving ? 'Saving...' : 'Save Changes' }}
+      </button>
+      <button type="button" class="btn cancel" (click)="cancel()">Cancel</button>
+    </div>
+
+  </form>
+</div>

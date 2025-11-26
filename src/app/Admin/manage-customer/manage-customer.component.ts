@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import Swal from 'sweetalert2';
 // CoreUI modules
 import {
   CardModule,
@@ -13,6 +13,7 @@ import {
   PaginationModule
 } from '@coreui/angular';
 import { ApiService } from '../../../services/api.service';
+import { Router, RouterModule } from '@angular/router';
 
 interface Customer {
   name: string;
@@ -36,12 +37,13 @@ interface Customer {
     GridModule,
     BadgeModule,
     PaginationModule,
+    RouterModule,
   ],
   templateUrl: './manage-customer.component.html',
   styleUrls: ['./manage-customer.component.scss']
 })
 export class ManageCustomerComponent implements OnInit {
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private router: Router) { }
   public loading = false;
   customers: Customer[] = [
     {
@@ -71,8 +73,6 @@ export class ManageCustomerComponent implements OnInit {
   }
   resetFilters() { }
   viewUser(user: Customer) { }
-  editUser(user: Customer) { }
-  deleteUser(user: Customer) { }
   changePage(p: number) { this.page = p; }
   getUsers() {
     this.loading = true;
@@ -112,5 +112,63 @@ export class ManageCustomerComponent implements OnInit {
 
     return initials || "U";
   }
+  editUser(user: any) {
+    this.router.navigate(['/users', user.id, 'edit']);
+  }
+  deleteUser(user: any) {
+    Swal.fire({
+      title: 'Delete User?',
+      html: `
+      <p style="font-size: 14px; margin-top: 10px;">
+        This will permanently remove <b>${user.email || user.mobile}</b>.
+      </p>
+    `,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#e11d48',
+      cancelButtonColor: '#6b7280'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.performDelete(user.id);
+      }
+    });
+  }
+  performDelete(id: number) {
+  this.loading = true;
+
+  this.api.deleteUser(id).subscribe({
+    next: (res) => {
+      this.loading = false;
+
+      if (res.StatusCode === "1") {
+        Swal.fire({
+          icon: 'success',
+          title: 'Deleted!',
+          text: 'User has been removed.',
+          timer: 1500,
+          showConfirmButton: false
+        });
+
+        this.getUsers(); // refresh list
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: res.StatusMessage || 'Unable to delete user.'
+        });
+      }
+    },
+    error: () => {
+      this.loading = false;
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Something went wrong.',
+      });
+    }
+  });
+}
 
 }

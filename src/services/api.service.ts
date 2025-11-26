@@ -61,7 +61,15 @@ export class ApiService {
   getAgentList(): Observable<any> {
     return this.http.get(this.url + 'admin/users/?role=agent', { headers: this.getAuthHeaders() });
   }
-
+  getSingleUser(id: any): Observable<any> {
+    return this.http.get(this.url + `admin/users/${id}/`, { headers: this.getAuthHeaders() });
+  }
+  updateUser(id: any, data: any): Observable<any> {
+    return this.http.patch(this.url + `admin/users/${id}/`, data, { headers: this.getAuthHeaders() });
+  }
+  deleteUser(id: any): Observable<any> {
+    return this.http.delete(this.url + `admin/users/${id}/`, { headers: this.getAuthHeaders() });
+  }
   logout() {
     const refresh = sessionStorage.getItem('refresh');
 
