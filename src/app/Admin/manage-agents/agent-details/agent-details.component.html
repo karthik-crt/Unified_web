@@ -1,1 +1,98 @@
-<p>agent-details works!</p>
+<div class="details-container" *ngIf="!loading && user">
+
+    <h2 class="title">Agent Details</h2>
+
+    <!-- User Basic Info -->
+    <section class="card-section">
+        <h3>User Information</h3>
+        <div class="info-grid">
+            <p><strong>ID:</strong> {{ user.id }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Mobile:</strong> {{ user.mobile || '-' }}</p>
+            <p><strong>Status:</strong> <span [class.status-active]="user.is_active" [class.status-inactive]="!user.is_active">{{ user.is_active ? 'Active' : 'Inactive' }}</span></p>
+            <p><strong>Role:</strong> {{ user.role }}</p>
+            <p><strong>Created At:</strong> {{ user.created_at | date:'medium' }}</p>
+        </div>
+    </section>
+
+    <!-- Agent Profile -->
+    <section class="card-section">
+        <h3>Agent Profile</h3>
+        <div class="info-grid">
+            <p><strong>Agent Code:</strong> {{ user.agent_profile?.agent_code }}</p>
+            <p><strong>Agency Name:</strong> {{ user.agent_profile?.agency_name || '-' }}</p>
+            <p><strong>Commission Rate:</strong> {{ user.agent_profile?.commission_rate }}%</p>
+            <p><strong>KYC Verified:</strong> <span [class.status-active]="user.agent_profile?.kyc_verified" [class.status-inactive]="!user.agent_profile?.kyc_verified">{{ user.agent_profile?.kyc_verified ? 'Yes' : 'No' }}</span></p>
+            <p><strong>Address:</strong> {{ user.agent_profile?.address || '-' }}</p>
+            <p><strong>Created At:</strong> {{ user.agent_profile?.created_at | date:'medium' }}</p>
+        </div>
+    </section>
+
+    <!-- Profile Info -->
+    <section class="card-section">
+        <h3>Personal Profile</h3>
+        <div class="info-grid">
+            <p><strong>Full Name:</strong> {{ user.profile?.full_name || '-' }}</p>
+            <p><strong>Date of Birth:</strong> {{ user.profile?.dob || '-' }}</p>
+            <p><strong>Gender:</strong> {{ user.profile?.gender || '-' }}</p>
+            <p><strong>Address Line 1:</strong> {{ user.profile?.address_line1 || '-' }}</p>
+            <p><strong>Address Line 2:</strong> {{ user.profile?.address_line2 || '-' }}</p>
+            <p><strong>City:</strong> {{ user.profile?.city || '-' }}</p>
+            <p><strong>State:</strong> {{ user.profile?.state || '-' }}</p>
+            <p><strong>Pincode:</strong> {{ user.profile?.pincode || '-' }}</p>
+        </div>
+    </section>
+
+    <!-- Preferences -->
+    <section class="card-section">
+        <h3>Preferences</h3>
+        <div class="info-grid">
+            <p><strong>SMS Notifications:</strong> <span [class.status-active]="user.preference?.notify_sms" [class.status-inactive]="!user.preference?.notify_sms">{{ user.preference?.notify_sms ? 'Enabled' : 'Disabled' }}</span></p>
+            <p><strong>Email Notifications:</strong> <span [class.status-active]="user.preference?.notify_email" [class.status-inactive]="!user.preference?.notify_email">{{ user.preference?.notify_email ? 'Enabled' : 'Disabled' }}</span></p>
+            <p><strong>Push Notifications:</strong> <span [class.status-active]="user.preference?.notify_push" [class.status-inactive]="!user.preference?.notify_push">{{ user.preference?.notify_push ? 'Enabled' : 'Disabled' }}</span></p>
+            <p><strong>Dark Mode:</strong> {{ user.preference?.dark_mode ? 'Yes' : 'No' }}</p>
+            <p><strong>Language:</strong> {{ user.preference?.language }}</p>
+            <p><strong>Currency:</strong> {{ user.preference?.currency }}</p>
+        </div>
+    </section>
+
+    <!-- Customers List -->
+    <section class="card-section">
+        <h3>Customers ({{ user.customers?.length || 0 }})</h3>
+
+        <div class="table-wrapper" *ngIf="user.customers?.length > 0">
+            <table class="customers-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>DOB</th>
+                        <th>Created At</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let c of user.customers">
+                        <td>{{ c.id }}</td>
+                        <td>{{ c.full_name }}</td>
+                        <td>{{ c.mobile }}</td>
+                        <td>{{ c.email }}</td>
+                        <td>{{ c.dob }}</td>
+                        <td>{{ c.created_at | date:'medium' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="no-data" *ngIf="!user.customers || user.customers.length === 0">No customers found.</p>
+    </section>
+
+    <button class="btn-back" routerLink="/manage-agents">Back to Agents</button>
+</div>
+
+<div class="loading-container" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading agent details...</p>
+</div>

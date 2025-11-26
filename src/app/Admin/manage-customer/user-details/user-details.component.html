@@ -1,1 +1,95 @@
-<p>user-details works!</p>
+<div class="loading-container" *ngIf="loading">
+  <div class="spinner"></div>
+  <p>Loading user details...</p>
+</div>
+
+<div class="details-container" *ngIf="!loading && user">
+  <h2 class="title">User Details</h2>
+
+  <!-- BASIC USER INFO -->
+  <section class="card-section">
+    <h3>Basic Information</h3>
+    <div class="info-grid">
+      <p><strong>ID:</strong> {{ user.id }}</p>
+      <p><strong>Email:</strong> {{ user.email || 'N/A' }}</p>
+      <p><strong>Mobile:</strong> {{ user.mobile || 'N/A' }}</p>
+      <p><strong>Role:</strong> <span class="role-badge">{{ user.role | titlecase }}</span></p>
+      <p><strong>Status:</strong> <span [class.status-active]="user.is_active" [class.status-inactive]="!user.is_active">{{ user.is_active ? 'Active' : 'Inactive' }}</span></p>
+      <p><strong>Created At:</strong> {{ user.created_at | date:'medium' }}</p>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="card-section">
+    <h3>Profile Information</h3>
+    <div class="info-grid">
+      <p><strong>Full Name:</strong> {{ user.profile?.full_name || 'N/A' }}</p>
+      <p><strong>Email:</strong> {{ user.profile?.email || 'N/A' }}</p>
+      <p><strong>DOB:</strong> {{ user.profile?.dob || 'N/A' }}</p>
+      <p><strong>Gender:</strong> {{ user.profile?.gender || 'N/A' }}</p>
+      <p><strong>Address Line 1:</strong> {{ user.profile?.address_line1 || 'N/A' }}</p>
+      <p><strong>Address Line 2:</strong> {{ user.profile?.address_line2 || 'N/A' }}</p>
+      <p><strong>City:</strong> {{ user.profile?.city || 'N/A' }}</p>
+      <p><strong>State:</strong> {{ user.profile?.state || 'N/A' }}</p>
+      <p><strong>Pincode:</strong> {{ user.profile?.pincode || 'N/A' }}</p>
+      <p><strong>Updated At:</strong> {{ user.profile?.updated_at | date:'medium' }}</p>
+    </div>
+  </section>
+
+  <!-- PREFERENCES -->
+  <section class="card-section">
+    <h3>User Preferences</h3>
+    <div class="info-grid">
+      <p><strong>SMS Notifications:</strong> <span [class.status-active]="user.preference?.notify_sms" [class.status-inactive]="!user.preference?.notify_sms">{{ formatBool(user.preference?.notify_sms) }}</span></p>
+      <p><strong>Email Notifications:</strong> <span [class.status-active]="user.preference?.notify_email" [class.status-inactive]="!user.preference?.notify_email">{{ formatBool(user.preference?.notify_email) }}</span></p>
+      <p><strong>Push Notifications:</strong> <span [class.status-active]="user.preference?.notify_push" [class.status-inactive]="!user.preference?.notify_push">{{ formatBool(user.preference?.notify_push) }}</span></p>
+      <p><strong>Dark Mode:</strong> {{ formatBool(user.preference?.dark_mode) }}</p>
+      <p><strong>Language:</strong> {{ user.preference?.language || 'N/A' }}</p>
+      <p><strong>Currency:</strong> {{ user.preference?.currency || 'N/A' }}</p>
+    </div>
+  </section>
+
+  <!-- KYC -->
+  <section class="card-section">
+    <h3>KYC Information</h3>
+    <div class="info-grid">
+      <p><strong>PAN Number:</strong> {{ user.kyc?.pan_number || 'N/A' }}</p>
+      <p><strong>PAN Status:</strong> {{ user.kyc?.pan_status || 'N/A' }}</p>
+      <p><strong>PAN Verified:</strong> <span [class.status-active]="user.kyc?.pan_verified" [class.status-inactive]="!user.kyc?.pan_verified">{{ formatBool(user.kyc?.pan_verified) }}</span></p>
+      
+      <p><strong>Aadhaar Last 4:</strong> {{ user.kyc?.aadhaar_last_4 || 'N/A' }}</p>
+      <p><strong>Aadhaar Name:</strong> {{ user.kyc?.aadhaar_name || 'N/A' }}</p>
+      <p><strong>Aadhaar DOB:</strong> {{ user.kyc?.aadhaar_dob || 'N/A' }}</p>
+      <p><strong>Aadhaar Verified:</strong> <span [class.status-active]="user.kyc?.aadhaar_verified" [class.status-inactive]="!user.kyc?.aadhaar_verified">{{ formatBool(user.kyc?.aadhaar_verified) }}</span></p>
+      
+      <p><strong>Overall Status:</strong> <span class="status-badge">{{ user.kyc?.overall_status || 'N/A' }}</span></p>
+      <p><strong>Fully Verified:</strong> <span [class.status-active]="user.kyc?.is_fully_verified" [class.status-inactive]="!user.kyc?.is_fully_verified">{{ formatBool(user.kyc?.is_fully_verified) }}</span></p>
+    </div>
+  </section>
+
+  <!-- DOCUMENTS -->
+  <section class="card-section">
+    <h3>Documents ({{ user.documents?.length || 0 }})</h3>
+
+    <div class="no-data" *ngIf="!user.documents || user.documents?.length === 0">
+      No documents uploaded.
+    </div>
+
+    <div class="documents-grid" *ngIf="user.documents?.length > 0">
+      <div *ngFor="let doc of user.documents" class="document-card">
+        <div class="document-header">
+          <span class="doc-type">{{ doc.doc_type }}</span>
+          <span [class.verified-badge]="doc.verified" [class.unverified-badge]="!doc.verified">
+            {{ doc.verified ? '✓ Verified' : '✗ Unverified' }}
+          </span>
+        </div>
+        <p class="doc-date"><strong>Uploaded:</strong> {{ doc.uploaded_at | date:'medium' }}</p>
+        <a *ngIf="doc.file" [href]="doc.file" target="_blank" class="view-file-btn">
+          📄 View File
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <button class="btn-back" (click)="goBack()">← Back</button>
+</div>

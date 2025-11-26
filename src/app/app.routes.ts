@@ -187,6 +187,13 @@ export const routes: Routes = [
       import('./Admin/manage-customer/edit-user/edit-user.component')
         .then(m => m.EditUserComponent),
   },
+  {
+    path: 'agent-details/:id',
+    loadComponent: () =>
+      import('./Admin/manage-agents/agent-details/agent-details.component')
+        .then(m => m.AgentDetailsComponent)
+  },
+
   // app.routes.ts or wherever you declare routes
   {
     path: 'health-insurance',

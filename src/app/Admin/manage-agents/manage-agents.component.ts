@@ -6,6 +6,7 @@ import {
   GridModule, BadgeModule, PaginationModule
 } from '@coreui/angular';
 import { ApiService } from '../../../services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-agents',
@@ -20,7 +21,7 @@ import { ApiService } from '../../../services/api.service';
 })
 export class ManageAgentsComponent implements OnInit {
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private router: Router) { }
 
   loading = false;
 
@@ -104,4 +105,7 @@ export class ManageAgentsComponent implements OnInit {
 
     return initials || "U";
   }
+  viewUser(user: any) {
+  this.router.navigate(['/agent-details', user.id]);
+}
 }
