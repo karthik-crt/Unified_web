@@ -5,7 +5,7 @@ export const routes: Routes = [
   // Default route → customer-login
   {
     path: '',
-    redirectTo: 'default',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
 
@@ -201,5 +201,5 @@ export const routes: Routes = [
     loadComponent: () => import('./customer/term-result/term-result.component').then(m => m.TermResultComponent)
   },
   // Catch-all → customer-login
-  { path: '**', redirectTo: 'default' }
+  { path: '**', redirectTo: 'login' }
 ];

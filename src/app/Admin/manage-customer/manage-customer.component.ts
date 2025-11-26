@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+
 // CoreUI modules
 import {
   CardModule,
@@ -12,17 +13,9 @@ import {
   BadgeModule,
   PaginationModule
 } from '@coreui/angular';
+
 import { ApiService } from '../../../services/api.service';
 import { Router, RouterModule } from '@angular/router';
-
-interface Customer {
-  name: string;
-  customer_id: string;
-  mobile: string;
-  email: string;
-  kyc_status: 'verified' | 'pending' | 'rejected';
-  created_at: Date;
-}
 
 @Component({
   selector: 'app-manage-customer',
@@ -43,63 +36,85 @@ interface Customer {
   styleUrls: ['./manage-customer.component.scss']
 })
 export class ManageCustomerComponent implements OnInit {
-  constructor(private api: ApiService, private router: Router) { }
-  public loading = false;
-  customers: Customer[] = [
-    {
-      name: 'Arun Kumar',
-      customer_id: 'CUST001',
-      mobile: '9876543210',
-      email: 'arun@example.com',
-      kyc_status: 'verified',
-      created_at: new Date()
-    }
-  ];
-  users: any;
-  searchText = '';
-  statusFilter = '';
-  sortBy = '';
-  page = 1;
-  totalPages = 5;
-  totalCount = 120;
 
-  get totalPagesArray() {
-    return Array(this.totalPages)
-      .fill(0)
-      .map((_, i) => i + 1);
-  }
+  constructor(private api: ApiService, private router: Router) { }
+
+  loading = false;
+
+  users: any[] = [];
+
+  // Filters
+  searchText: string = '';
+  statusFilter: string = '';
+  roleFilter: string = 'customer';
+
+  // Pagination
+  page = 1;
+  pageSize = 10;
+  totalPages = 1;
+  totalRecords = 0;
+
   ngOnInit(): void {
     this.getUsers();
   }
-  resetFilters() { }
-  viewUser(user: Customer) { }
-  changePage(p: number) { this.page = p; }
+
+  // Fetch users with filters + pagination
   getUsers() {
     this.loading = true;
 
-    this.api.getUserList().subscribe({
+    const params: any = {
+      page: this.page,
+      page_size: this.pageSize
+    };
+
+    if (this.searchText) params.search = this.searchText;
+    if (this.roleFilter) params.role = this.roleFilter;
+    if (this.statusFilter) params.status = this.statusFilter;
+
+    this.api.getUsers(params).subscribe({
       next: (res) => {
         this.loading = false;
 
-        if (res.StatusCode === "1") {
-          this.users = res.data.map((u: any) => ({
-            id: u.id,
-            name: u.email || u.mobile || "Unknown",
-            avatar: this.getAvatar(u),
-            email: u.email || "-",
-            mobile: u.mobile || "-",
-            role: u.role,
-            status: u.is_active ? "Active" : "Inactive",
-            created_at: new Date(u.created_at)
-          }));
+        if (!res || res.StatusCode !== true) {
+          console.error("Bad API response", res);
+          return;
         }
+
+        this.users = res.data.results.map((u: any) => ({
+          id: u.id,
+          name: u.email || u.mobile || 'Unknown',
+          avatar: this.getAvatar(u),
+          email: u.email || '-',
+          mobile: u.mobile || '-',
+          role: u.role,
+          status: u.is_active ? 'Active' : 'Inactive',
+          created_at: u.created_at
+        }));
+
+        this.totalRecords = res.data.count;
+        this.totalPages = res.data.total_pages;
       },
       error: () => {
         this.loading = false;
+        console.error("API error");
       }
     });
   }
 
+  // Apply filters and reset to page 1
+  applyFilters() {
+    this.page = 1;
+    this.getUsers();
+  }
+
+  // Pagination navigation
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.page = page;
+    this.getUsers();
+  }
+
+  // Avatar initials
   getAvatar(user: any) {
     const text = user.email || user.mobile || "NA";
     const initials = text
@@ -109,66 +124,76 @@ export class ManageCustomerComponent implements OnInit {
       .slice(0, 2)
       .map((w: string) => w[0]?.toUpperCase())
       .join("");
-
     return initials || "U";
   }
+
   editUser(user: any) {
     this.router.navigate(['/users', user.id, 'edit']);
   }
+
+  // Delete user confirmation
   deleteUser(user: any) {
     Swal.fire({
       title: 'Delete User?',
       html: `
-      <p style="font-size: 14px; margin-top: 10px;">
-        This will permanently remove <b>${user.email || user.mobile}</b>.
-      </p>
-    `,
+        <p style="font-size: 14px; margin-top: 10px;">
+          This will permanently remove <b>${user.email || user.mobile}</b>.
+        </p>
+      `,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, Delete',
       cancelButtonText: 'Cancel',
       confirmButtonColor: '#e11d48',
       cancelButtonColor: '#6b7280'
-    }).then((result) => {
-      if (result.isConfirmed) {
+    }).then((res) => {
+      if (res.isConfirmed) {
         this.performDelete(user.id);
       }
     });
   }
+
   performDelete(id: number) {
-  this.loading = true;
+    this.loading = true;
 
-  this.api.deleteUser(id).subscribe({
-    next: (res) => {
-      this.loading = false;
+    this.api.deleteUser(id).subscribe({
+      next: (res) => {
+        this.loading = false;
 
-      if (res.StatusCode === "1") {
-        Swal.fire({
-          icon: 'success',
-          title: 'Deleted!',
-          text: 'User has been removed.',
-          timer: 1500,
-          showConfirmButton: false
-        });
+        if (res.StatusCode === true || res.StatusCode === "1") {
+          Swal.fire({
+            icon: 'success',
+            title: 'Deleted!',
+            text: 'User has been removed.',
+            timer: 1500,
+            showConfirmButton: false
+          });
 
-        this.getUsers(); // refresh list
-      } else {
+          this.getUsers();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: res.StatusMessage || 'Unable to delete user.'
+          });
+        }
+      },
+      error: () => {
+        this.loading = false;
         Swal.fire({
           icon: 'error',
-          title: 'Failed',
-          text: res.StatusMessage || 'Unable to delete user.'
+          title: 'Error',
+          text: 'Something went wrong.',
         });
       }
-    },
-    error: () => {
-      this.loading = false;
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Something went wrong.',
-      });
-    }
-  });
-}
+    });
+  }
+  resetFilters() {
+    this.searchText = '';
+    this.statusFilter = '';
+    this.roleFilter = '';
+    this.page = 1;
+    this.getUsers();
+  }
 
 }

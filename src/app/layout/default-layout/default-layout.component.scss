@@ -18,6 +18,21 @@
   //}
 }
 
+.c-sidebar-brand {
+  height: 56px !important;  /* match CoreUI header height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+      margin-left: 132%;
+}
+
+
 // ng-scrollbar css variables
 //.cui-scrollbar {
 //  --scrollbar-border-radius: 7px;

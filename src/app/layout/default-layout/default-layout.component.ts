@@ -34,7 +34,6 @@ import { INavData } from '@coreui/angular'; // ensure interface is imported
     ContainerComponent,
     DefaultFooterComponent,
     DefaultHeaderComponent,
-    IconDirective,
     NgScrollbar,
     RouterOutlet,
     RouterLink,

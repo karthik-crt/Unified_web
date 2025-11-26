@@ -70,6 +70,9 @@ export class ApiService {
   deleteUser(id: any): Observable<any> {
     return this.http.delete(this.url + `admin/users/${id}/`, { headers: this.getAuthHeaders() });
   }
+  getUsers(params: any): Observable<any> {
+    return this.http.get(this.url + 'admin/users/', { headers: this.getAuthHeaders(), params });
+  }
   logout() {
     const refresh = sessionStorage.getItem('refresh');
 

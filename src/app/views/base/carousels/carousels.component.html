@@ -36,7 +36,7 @@
           Adding in the previous and next controls with <code>c-carousel-controls</code> component.
         </p>
         <app-docs-example href="components/carousel/#with-controls">
-          <c-carousel (itemChange)="onItemChange($event)" [interval]="0" aria-roledescription="carousel" aria-label="Unified Carousel Example">
+          <c-carousel (itemChange)="onItemChange($event)" [interval]="0" aria-roledescription="carousel" aria-label="Mycfs Carousel Example">
             <c-carousel-inner id="carousel-items">
               @for (slide of slides[0]; track slide.src; let i = $index) {
                 <c-carousel-item aria-roledescription="slide" [attr.aria-label]="(i + 1).toString() + ' of '+ slides[0].length">
@@ -108,7 +108,7 @@
             <!--    <ng-template cTemplateId="carouselIndicatorsTemplate">-->
             <!--      @for (slide of slides[0]; track slide; let i = $index) {-->
             <!--        <button-->
-            <!--          [attr.data-coreui-target]="i"-->
+            <!--          [attr.data-Mycfs-target]="i"-->
             <!--          type="button"-->
             <!--          (click)="indicators.onClick(i)"-->
             <!--          [class]="{ active: indicators.active === i }"-->
@@ -154,7 +154,7 @@
         <p class="text-body-secondary small">
           You can add captions to slides with the <code>&lt;c-carousel-caption&gt;</code> element
           within any <code>&lt;c-carousel-item&gt;</code>. They can be immediately hidden on
-          smaller viewports, as shown below, with optional <a href="https://coreui.io/4.0/utilities/display">display
+          smaller viewports, as shown below, with optional <a href="https://Mycfs.io/4.0/utilities/display">display
           utilities</a>.
           We hide them with <code>.d-none</code> and draw them back on medium-sized devices with
           <code>.d-md-block</code>.

@@ -1,88 +1,69 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-// CoreUI modules
 import {
-  CardModule,
-  TableModule,
-  ButtonModule,
-  FormModule,
-  GridModule,
-  BadgeModule,
-  PaginationModule
+  CardModule, TableModule, ButtonModule, FormModule,
+  GridModule, BadgeModule, PaginationModule
 } from '@coreui/angular';
 import { ApiService } from '../../../services/api.service';
-
-interface Customer {
-  name: string;
-  customer_id: string;
-  mobile: string;
-  email: string;
-  kyc_status: 'verified' | 'pending' | 'rejected';
-  created_at: Date;
-}
 
 @Component({
   selector: 'app-manage-agents',
   standalone: true,
   imports: [
-    CommonModule,
-    FormsModule,
-    CardModule,
-    TableModule,
-    ButtonModule,
-    FormModule,
-    GridModule,
-    BadgeModule,
-    PaginationModule,
+    CommonModule, FormsModule,
+    CardModule, TableModule, ButtonModule,
+    FormModule, GridModule, BadgeModule, PaginationModule
   ],
   templateUrl: './manage-agents.component.html',
   styleUrls: ['./manage-agents.component.scss']
 })
 export class ManageAgentsComponent implements OnInit {
+
   constructor(private api: ApiService) { }
-  public loading = false;
-  customers: Customer[] = [
-    {
-      name: 'Arun Kumar',
-      customer_id: 'CUST001',
-      mobile: '9876543210',
-      email: 'arun@example.com',
-      kyc_status: 'verified',
-      created_at: new Date()
-    }
-  ];
-  users: any;
+
+  loading = false;
+
+  users: any[] = [];
   searchText = '';
   statusFilter = '';
-  sortBy = '';
   page = 1;
-  totalPages = 5;
-  totalCount = 120;
+  pageSize = 10;
+  totalPages = 1;
+  totalCount = 0;
 
-  get totalPagesArray() {
-    return Array(this.totalPages)
-      .fill(0)
-      .map((_, i) => i + 1);
-  }
-  ngOnInit(): void {
+  ngOnInit() {
     this.getUsers();
   }
-  resetFilters() { }
-  viewUser(user: Customer) { }
-  editUser(user: Customer) { }
-  deleteUser(user: Customer) { }
-  changePage(p: number) { this.page = p; }
+
+  applyFilters() {
+    this.page = 1; // reset to first page
+    this.getUsers();
+  }
+
+  changePage(p: number) {
+    if (p < 1 || p > this.totalPages) return;
+    this.page = p;
+    this.getUsers();
+  }
+
   getUsers() {
     this.loading = true;
 
-    this.api.getAgentList().subscribe({
+    const params = {
+      search: this.searchText,
+      status: this.statusFilter,
+      role: 'agent',             // fixed for agent screen
+      page: this.page,
+      page_size: this.pageSize
+    };
+
+    this.api.getUsers(params).subscribe({
       next: (res) => {
         this.loading = false;
 
-        if (res.StatusCode === "1") {
-          this.users = res.data.map((u: any) => ({
+        if (res.StatusCode === true) {
+          this.users = res.data.results.map((u: any) => ({
             id: u.id,
             name: u.email || u.mobile || "Unknown",
             avatar: this.getAvatar(u),
@@ -92,12 +73,23 @@ export class ManageAgentsComponent implements OnInit {
             status: u.is_active ? "Active" : "Inactive",
             created_at: new Date(u.created_at)
           }));
+
+          this.page = res.data.page;
+          this.pageSize = res.data.page_size;
+          this.totalCount = res.data.count;
+          this.totalPages = res.data.total_pages;
         }
       },
       error: () => {
         this.loading = false;
       }
     });
+  }
+  resetFilters() {
+    this.searchText = '';
+    this.statusFilter = '';
+    this.page = 1;
+    this.getUsers();
   }
 
   getAvatar(user: any) {
@@ -112,5 +104,4 @@ export class ManageAgentsComponent implements OnInit {
 
     return initials || "U";
   }
-
 }
