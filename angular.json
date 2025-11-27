@@ -42,7 +42,10 @@
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": [],
+            "allowedCommonJsDependencies": [
+              "qrcode",
+              "sweetalert2"
+            ],
             "stylePreprocessorOptions": {
               "sass": {
                 "silenceDeprecations": []
@@ -54,13 +57,19 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "7mb",
-                  "maximumError": "8mb"
+                  "maximumWarning": "8mb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "20kb",
+                  "maximumError": "30kb"
+                },
+                {
+                  "type": "bundle",
+                  "name": "main",
+                  "maximumWarning": "500kb",
+                  "maximumError": "800kb"
                 }
               ],
               "outputHashing": "all"

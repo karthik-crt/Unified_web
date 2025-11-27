@@ -1,0 +1,83 @@
+<div class="user-list-container">
+
+    <div class="table-container">
+
+        <!-- Filters -->
+        <div class="filters-container">
+
+            <!-- Search Box -->
+            <div class="filter-item">
+                <i class="filter-icon cil-search"></i>
+                <input type="text" class="filter-input" placeholder="Search by name, email, mobile..."
+                    [(ngModel)]="searchText" (input)="applyFilters()" />
+            </div>
+
+            <!-- Status Filter -->
+            <div class="filter-item">
+                <i class="filter-icon cil-check-circle"></i>
+                <select class="filter-select" [(ngModel)]="statusFilter" (change)="applyFilters()">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+
+            <!-- Reset Filters -->
+            <button class="btn-reset" (click)="resetFilters()">
+                Reset
+            </button>
+
+        </div>
+
+
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Policy No</th>
+                    <th>User</th>
+                    <th>Premium</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let p of policies">
+                    <td>{{ p.id }}</td>
+                    <td>{{ p.policy_no }}</td>
+                    <td>{{ p.user }}</td>
+                    <td>₹ {{ p.premium }}</td>
+                    <td>
+                        <span class="status-badge" [ngClass]="p.status === 'Active' ? 'active' : 'inactive'">
+                            {{ p.status }}
+                        </span>
+                    </td>
+                    <td>{{ p.created_at | date:'medium' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <button [disabled]="page === 1" (click)="changePage(page - 1)">
+            Previous
+        </button>
+
+        <span class="page-info">
+            Page {{ page }} of {{ totalPages }}
+        </span>
+
+        <button [disabled]="page === totalPages" (click)="changePage(page + 1)">
+            Next
+        </button>
+    </div>
+
+</div>
+
+<div class="loading-overlay" *ngIf="loading">
+    <div class="loader-premium"></div>
+    <p>Loading please wait...</p>
+</div>

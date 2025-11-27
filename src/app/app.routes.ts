@@ -46,10 +46,15 @@ export const routes: Routes = [
     data: { title: 'Home' },
 
     children: [
+      // {
+      //   path: 'dashboard',
+      //   loadChildren: () =>
+      //     import('./views/dashboard/routes').then(m => m.routes)
+      // },
       {
         path: 'dashboard',
-        loadChildren: () =>
-          import('./views/dashboard/routes').then(m => m.routes)
+        loadComponent: () =>
+          import('./Admin/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent)
       },
       {
         path: 'manage-users',
@@ -66,6 +71,12 @@ export const routes: Routes = [
         loadComponent: () =>
           import('../app/Admin/manage-agents/manage-agents.component').then(m => m.ManageAgentsComponent)
       },
+      {
+        path: 'policy-list',
+        loadComponent: () =>
+          import('./Admin/policy-list/policy-list.component').then(m => m.PolicyListComponent)
+      },
+      // policy-list
       {
         path: 'agent-dashboard',
         loadComponent: () =>

@@ -1,0 +1,102 @@
+/* Enhanced CSS for the improved dashboard */
+.dashboard-root {
+  --primary: #1f3574;
+  --accent: #4a90e2;
+  --soft: #f8f9fa;
+  --soft-border: #e9ecef;
+  --white: #ffffff;
+  --primary-10: rgba(31, 53, 116, 0.1);
+  --accent-10: rgba(74, 144, 226, 0.1);
+  --white-20: rgba(255, 255, 255, 0.2);
+}
+
+.card-primary {
+  background: linear-gradient(135deg, var(--primary), #2a4288);
+  color: white;
+  border: none;
+}
+
+.card-accent {
+  background: linear-gradient(135deg, var(--accent), #5a9ae2);
+  color: white;
+  border: none;
+}
+
+.card-white-bordered {
+  border: 1px solid var(--primary);
+  border-top: 4px solid var(--primary);
+}
+
+.card-white-bordered-accent {
+  border: 1px solid var(--accent);
+  border-top: 4px solid var(--accent);
+}
+
+.card-custom {
+  border: 1px solid var(--soft-border);
+  border-radius: 8px;
+}
+
+.metric-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-container {
+  height: 300px;
+  position: relative;
+}
+
+.progress {
+  height: 8px;
+  background-color: var(--soft);
+  border-radius: 8px;
+}
+
+.progress-bar {
+  background-color: var(--primary);
+  border-radius: 8px;
+}
+
+.bg-accent {
+  background-color: var(--accent) !important;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.btn-accent {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+}
+
+.btn-accent:hover {
+  background-color: #3a80d2;
+  color: white;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(31, 53, 116, 0.03);
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
