@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DecimalPipe, NgFor, NgIf, NgStyle } from '@angular/common';
-import { ApiService } from 'src/services/api.service';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-admin-dashboard',

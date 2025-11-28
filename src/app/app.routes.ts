@@ -72,18 +72,17 @@ export const routes: Routes = [
           import('../app/Admin/manage-agents/manage-agents.component').then(m => m.ManageAgentsComponent)
       },
       {
-<<<<<<< HEAD
+
         path: 'kyc-list',
         loadComponent: () =>
           import('../app/Admin/kyc-list/kyc-list.component').then(m => m.KycListComponent)
       },
-=======
+      {
         path: 'policy-list',
         loadComponent: () =>
           import('./Admin/policy-list/policy-list.component').then(m => m.PolicyListComponent)
       },
       // policy-list
->>>>>>> 44d9ed7d9fba77013fe888b56e14689f735f465f
       {
         path: 'agent-dashboard',
         loadComponent: () =>
