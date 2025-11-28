@@ -96,46 +96,6 @@ export const routes: Routes = [
         data: { title: 'Agent Dashboard' }
       },
       {
-        path: 'theme',
-        loadChildren: () =>
-          import('./views/theme/routes').then(m => m.routes)
-      },
-      {
-        path: 'base',
-        loadChildren: () =>
-          import('./views/base/routes').then(m => m.routes)
-      },
-      {
-        path: 'buttons',
-        loadChildren: () =>
-          import('./views/buttons/routes').then(m => m.routes)
-      },
-      {
-        path: 'forms',
-        loadChildren: () =>
-          import('./views/forms/routes').then(m => m.routes)
-      },
-      {
-        path: 'icons',
-        loadChildren: () =>
-          import('./views/icons/routes').then(m => m.routes)
-      },
-      {
-        path: 'notifications',
-        loadChildren: () =>
-          import('./views/notifications/routes').then(m => m.routes)
-      },
-      {
-        path: 'widgets',
-        loadChildren: () =>
-          import('./views/widgets/routes').then(m => m.routes)
-      },
-      {
-        path: 'charts',
-        loadChildren: () =>
-          import('./views/charts/routes').then(m => m.routes)
-      },
-      {
         path: 'pages',
         loadChildren: () =>
           import('./views/pages/routes').then(m => m.routes)
@@ -235,5 +195,5 @@ export const routes: Routes = [
     loadComponent: () => import('./customer/term-result/term-result.component').then(m => m.TermResultComponent)
   },
   // Catch-all → customer-login
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: '404' }
 ];

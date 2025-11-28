@@ -10,7 +10,6 @@ import {
   ContainerComponent,
   DropdownComponent,
   DropdownDividerDirective,
-  DropdownHeaderDirective,
   DropdownItemDirective,
   DropdownMenuDirective,
   DropdownToggleDirective,
@@ -28,7 +27,7 @@ import { ApiService } from '../../../../services/api.service';
 @Component({
   selector: 'app-default-header',
   templateUrl: './default-header.component.html',
-  imports: [ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, IconDirective, HeaderNavComponent,   RouterLink,  NgTemplateOutlet,  DropdownComponent, DropdownToggleDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective]
+  imports: [ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, IconDirective, HeaderNavComponent,   RouterLink,  NgTemplateOutlet,  DropdownComponent, DropdownToggleDirective, AvatarComponent, DropdownMenuDirective,  DropdownItemDirective]
 })
 export class DefaultHeaderComponent extends HeaderComponent {
 
