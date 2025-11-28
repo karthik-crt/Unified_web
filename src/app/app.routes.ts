@@ -82,6 +82,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./Admin/policy-list/policy-list.component').then(m => m.PolicyListComponent)
       },
+      {
+        path: 'loan-list',
+        loadComponent: () =>
+          import('./Admin/loan-list/loan-list.component').then(m => m.LoanListComponent)
+      },
       // policy-list
       {
         path: 'agent-dashboard',

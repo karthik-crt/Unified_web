@@ -6,27 +6,24 @@
         <!-- Search Box -->
         <div class="filter-item">
             <i class="filter-icon cil-search"></i>
-            <input type="text" class="filter-input" placeholder="Search by name, email, mobile..."
-                [(ngModel)]="searchText" (input)="applyFilters()" />
+            <input type="text" class="filter-input" placeholder="Search by name or mobile..." [(ngModel)]="searchText"
+                (input)="applyFilters()" />
         </div>
 
-        <!-- Status Filter -->
+        <!-- KYC Status Filter -->
         <div class="filter-item">
             <i class="filter-icon cil-check-circle"></i>
             <select class="filter-select" [(ngModel)]="statusFilter" (change)="applyFilters()">
                 <option value="">All Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="pending">Pending</option>
+                <option value="submitted">Submitted</option>
+                <option value="verified">Verified</option>
+                <option value="rejected">Rejected</option>
             </select>
         </div>
 
-        <!-- Reset Filters -->
-        <button class="btn-reset" (click)="resetFilters()">
-            Reset
-        </button>
-
+        <button class="btn-reset" (click)="resetFilters()">Reset</button>
     </div>
-
 
     <!-- Table -->
     <div class="table-container">
@@ -34,55 +31,49 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>full_name</th>
-                    <th>mobile</th>
-                    <th>agent_name</th>
-                    <th>agent_code</th>
-                    <th>pan_number</th>
-                    <th>pan_status</th>
-                    <th>aadhaar_last_4</th>
-                    <th>aadhaar_status</th>
-                    <th>kyc_status</th>
-                    <th>verified_at</th>
+                    <th>Full Name</th>
+                    <th>Mobile</th>
+                    <th>Agent</th>
+                    <th>PAN Status</th>
+                    <th>Aadhaar Status</th>
+                    <th>KYC Status</th>
+                    <th>Verified At</th>
                 </tr>
             </thead>
 
             <tbody>
                 <tr *ngFor="let u of users">
-                    <td></td>
+                    <td>{{ u.id }}</td>
 
                     <td>
                         <div class="user-info">
                             <div class="avatar"></div>
-                            <span></span>
+                            <span>{{ u.full_name }}</span>
                         </div>
                     </td>
 
-                    <td></td>
+                    <td>{{ u.mobile }}</td>
+                    <td>{{ u.agent_name }}</td>
 
                     <td>
-                        <span class="role-badge" [ngClass]="{
-                  'admin': u.role === 'admin',
-                  'user': u.role === 'customer',
-                  'moderator': u.role === 'agent'
-                }">
-                            <!-- {{ u.role | titlecase }} -->
+                        <span class="status-badge" [ngClass]="u.pan_status">
+                            {{ u.pan_status }}
                         </span>
                     </td>
 
                     <td>
-                        <span class="status-badge" [ngClass]="u.status === 'Active' ? 'active' : 'inactive'">
-                            <!-- {{ u.status }} -->
+                        <span class="status-badge" [ngClass]="u.aadhaar_status">
+                            {{ u.aadhaar_status }}
                         </span>
                     </td>
 
-                    <!-- <td>
-                        <div class="actions">
-                            <button class="btn-icon" (click)="viewUser(u)">👁️</button>
-                            <button class="btn-icon" (click)="editUser(u)">✏️</button>
-                            <button class="btn-icon delete" (click)="confirmDelete(u)">🗑️</button>
-                        </div>
-                    </td> -->
+                    <td>
+                        <span class="status-badge" [ngClass]="u.kyc_status">
+                            {{ u.kyc_status }}
+                        </span>
+                    </td>
+
+                    <td>{{ u.verified_at | date:'short' }}</td>
                 </tr>
             </tbody>
         </table>
@@ -90,20 +81,16 @@
 
     <!-- Pagination -->
     <div class="pagination">
-        <button [disabled]="page === 1" (click)="changePage(page - 1)">
-            Previous
-        </button>
+        <button [disabled]="page === 1" (click)="changePage(page - 1)">Previous</button>
 
         <span>Page {{ page }} of {{ totalPages }}</span>
 
-        <button [disabled]="page === totalPages" (click)="changePage(page + 1)">
-            Next
-        </button>
+        <button [disabled]="page === totalPages" (click)="changePage(page + 1)">Next</button>
     </div>
 
 </div>
 
-<!-- Loading -->
+<!-- Loader -->
 <div class="loading-overlay" *ngIf="loading">
     <div class="loader-premium"></div>
     <p>Loading please wait...</p>

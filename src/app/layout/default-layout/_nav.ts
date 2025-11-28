@@ -464,12 +464,17 @@ export const adminNav: INavData[] = [
 
     name: 'KYC',
     url: '/kyc-list',
-    iconComponent: { name: 'cil-user-follow' }
+    iconComponent: { name: 'cilAddressBook' }
   },
   {
     name: 'Policies',
     url: '/policy-list',
-    iconComponent: { name: 'clil-briefcase' }
+    iconComponent: { name: 'cil-description' }
+  },
+  {
+    name: 'Loans',
+    url: '/loan-list',
+    iconComponent: { name: 'cilCreditCard' }
   }
 ];
 

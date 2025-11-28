@@ -85,6 +85,16 @@ export class ApiService {
   getPolicies(params: any): Observable<any> {
     return this.http.get(this.url + 'admin/policies/', { headers: this.getAuthHeaders(), params });
   }
+  getLoanApplications(params: any): Observable<any> {
+    return this.http.get(this.url + 'admin/loan-list/', { headers: this.getAuthHeaders(), params });
+  }
+  getKYCList(params: any): Observable<any> {
+  return this.http.get(this.url + 'admin/customer/kyc-status/', {
+    headers: this.getAuthHeaders(),
+    params,
+  });
+}
+
   logout() {
     const refresh = sessionStorage.getItem('refresh');
 

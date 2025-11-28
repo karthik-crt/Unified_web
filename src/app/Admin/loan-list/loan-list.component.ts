@@ -9,21 +9,23 @@ import { ApiService } from '../../../services/api.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-kyc-list',
+  selector: 'app-loan-list',
   standalone: true,
   imports: [
     CommonModule, FormsModule,
     CardModule, TableModule, ButtonModule,
     FormModule, GridModule, BadgeModule, PaginationModule
   ],
-  templateUrl: './kyc-list.component.html',
-  styleUrls: ['./kyc-list.component.scss']
+  templateUrl: './loan-list.component.html',
+  styleUrls: ['./loan-list.component.scss']
 })
-export class KycListComponent implements OnInit {
+export class LoanListComponent implements OnInit {
+
+  constructor(private api: ApiService, private router: Router) { }
 
   loading = false;
 
-  users: any[] = [];
+  loans: any[] = [];
   searchText = '';
   statusFilter = '';
   page = 1;
@@ -31,24 +33,22 @@ export class KycListComponent implements OnInit {
   totalPages = 1;
   totalCount = 0;
 
-  constructor(private api: ApiService, private router: Router) {}
-
   ngOnInit() {
-    this.getUsers();
+    this.getLoans();
   }
 
   applyFilters() {
     this.page = 1;
-    this.getUsers();
+    this.getLoans();
   }
 
   changePage(p: number) {
     if (p < 1 || p > this.totalPages) return;
     this.page = p;
-    this.getUsers();
+    this.getLoans();
   }
 
-  getUsers() {
+  getLoans() {
     this.loading = true;
 
     const params = {
@@ -58,21 +58,12 @@ export class KycListComponent implements OnInit {
       page_size: this.pageSize
     };
 
-    this.api.getKYCList(params).subscribe({
+    this.api.getLoanApplications(params).subscribe({
       next: (res) => {
         this.loading = false;
 
         if (res.StatusCode === true) {
-          this.users = res.data.results.map((u: any) => ({
-            id: u.id,
-            full_name: u.customer.full_name,
-            mobile: u.customer.mobile,
-            agent_name: u.customer.agent ? u.customer.agent.email : "-",
-            pan_status: u.pan_status || "Pending",
-            aadhaar_status: u.aadhaar_status || "Pending",
-            kyc_status: u.kyc_status,
-            verified_at: u.verified_at ? new Date(u.verified_at) : null
-          }));
+          this.loans = res.data.results;
 
           this.page = res.data.page;
           this.pageSize = res.data.page_size;
@@ -90,6 +81,11 @@ export class KycListComponent implements OnInit {
     this.searchText = '';
     this.statusFilter = '';
     this.page = 1;
-    this.getUsers();
+    this.getLoans();
+  }
+
+  getInitials(text: string): string {
+    if (!text) return 'U';
+    return text.charAt(0).toUpperCase();
   }
 }

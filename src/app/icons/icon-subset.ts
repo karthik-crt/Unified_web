@@ -1,3 +1,5 @@
+import { cilAddressBook } from '@coreui/icons';
+
 import {
   cibCcAmex,
   cibCcApplePay,
@@ -115,6 +117,7 @@ export const iconSubset = {
   cifBr,
   cifEs,
   cifFr,
+  cilAddressBook,
   cifIn,
   cifPl,
   cifUs,
@@ -299,6 +302,7 @@ export enum IconSubset {
   cilUserFollow = 'cilUserFollow',
   cilUserUnfollow = 'cilUserUnfollow',
   logo = 'logo',
-  signet = 'signet'
+  signet = 'signet',
+  cilAddressBook = 'cilAddressBook',
 }
 

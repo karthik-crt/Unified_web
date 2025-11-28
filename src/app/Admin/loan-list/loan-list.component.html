@@ -1,0 +1,101 @@
+<div class="user-list-container">
+
+    <!-- Filters -->
+    <div class="filters-container">
+
+        <!-- Search Box -->
+        <div class="filter-item">
+            <i class="filter-icon cil-search"></i>
+            <input type="text" class="filter-input" placeholder="Search Loan / User / Provider..."
+                [(ngModel)]="searchText" (input)="applyFilters()" />
+        </div>
+
+        <!-- Status Filter -->
+        <div class="filter-item">
+            <i class="filter-icon cil-check-circle"></i>
+            <select class="filter-select" [(ngModel)]="statusFilter" (change)="applyFilters()">
+                <option value="">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+                <option value="disbursed">Disbursed</option>
+            </select>
+        </div>
+
+        <!-- Reset Filters -->
+        <button class="btn-reset" (click)="resetFilters()">
+            Reset
+        </button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Provider</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let l of loans">
+
+                    <!-- User -->
+                    <td>
+                        <div class="user-info">
+                            <div class="avatar">{{ getInitials(l.user_mobile) }}</div>
+                            <div>
+                                <div>{{ l.user_mobile }}</div>
+                                <small class="email">{{ l.user_email || '-' }}</small>
+                            </div>
+                        </div>
+                    </td>
+
+                    <!-- Provider -->
+                    <td>{{ l.provider }}</td>
+
+                    <!-- Loan Amount -->
+                    <td>{{ l.amount | number }}</td>
+
+                    <!-- Status -->
+                    <td>
+                        <span class="status-badge" [ngClass]="{
+                    'active': l.status === 'approved' || l.status === 'disbursed',
+                    'inactive': l.status === 'pending' || l.status === 'rejected'
+                }">
+                            {{ l.status | titlecase }}
+                        </span>
+                    </td>
+
+                    <!-- Created Date -->
+                    <td>{{ l.created_at | date:'short' }}</td>
+
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <button [disabled]="page === 1" (click)="changePage(page - 1)">
+            Previous
+        </button>
+
+        <span>Page {{ page }} of {{ totalPages }}</span>
+
+        <button [disabled]="page === totalPages" (click)="changePage(page + 1)">
+            Next
+        </button>
+    </div>
+</div>
+
+<!-- Loading -->
+<div class="loading-overlay" *ngIf="loading">
+    <div class="loader-premium"></div>
+    <p>Loading please wait...</p>
+</div>
