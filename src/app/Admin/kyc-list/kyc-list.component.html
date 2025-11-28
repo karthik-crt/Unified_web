@@ -1,0 +1,110 @@
+<div class="user-list-container">
+
+    <!-- Filters -->
+    <div class="filters-container">
+
+        <!-- Search Box -->
+        <div class="filter-item">
+            <i class="filter-icon cil-search"></i>
+            <input type="text" class="filter-input" placeholder="Search by name, email, mobile..."
+                [(ngModel)]="searchText" (input)="applyFilters()" />
+        </div>
+
+        <!-- Status Filter -->
+        <div class="filter-item">
+            <i class="filter-icon cil-check-circle"></i>
+            <select class="filter-select" [(ngModel)]="statusFilter" (change)="applyFilters()">
+                <option value="">All Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+
+        <!-- Reset Filters -->
+        <button class="btn-reset" (click)="resetFilters()">
+            Reset
+        </button>
+
+    </div>
+
+
+    <!-- Table -->
+    <div class="table-container">
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>full_name</th>
+                    <th>mobile</th>
+                    <th>agent_name</th>
+                    <th>agent_code</th>
+                    <th>pan_number</th>
+                    <th>pan_status</th>
+                    <th>aadhaar_last_4</th>
+                    <th>aadhaar_status</th>
+                    <th>kyc_status</th>
+                    <th>verified_at</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let u of users">
+                    <td></td>
+
+                    <td>
+                        <div class="user-info">
+                            <div class="avatar"></div>
+                            <span></span>
+                        </div>
+                    </td>
+
+                    <td></td>
+
+                    <td>
+                        <span class="role-badge" [ngClass]="{
+                  'admin': u.role === 'admin',
+                  'user': u.role === 'customer',
+                  'moderator': u.role === 'agent'
+                }">
+                            <!-- {{ u.role | titlecase }} -->
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="status-badge" [ngClass]="u.status === 'Active' ? 'active' : 'inactive'">
+                            <!-- {{ u.status }} -->
+                        </span>
+                    </td>
+
+                    <!-- <td>
+                        <div class="actions">
+                            <button class="btn-icon" (click)="viewUser(u)">👁️</button>
+                            <button class="btn-icon" (click)="editUser(u)">✏️</button>
+                            <button class="btn-icon delete" (click)="confirmDelete(u)">🗑️</button>
+                        </div>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <button [disabled]="page === 1" (click)="changePage(page - 1)">
+            Previous
+        </button>
+
+        <span>Page {{ page }} of {{ totalPages }}</span>
+
+        <button [disabled]="page === totalPages" (click)="changePage(page + 1)">
+            Next
+        </button>
+    </div>
+
+</div>
+
+<!-- Loading -->
+<div class="loading-overlay" *ngIf="loading">
+    <div class="loader-premium"></div>
+    <p>Loading please wait...</p>
+</div>

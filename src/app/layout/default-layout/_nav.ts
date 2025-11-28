@@ -459,6 +459,11 @@ export const adminNav: INavData[] = [
     name: 'Agents',
     url: '/manage-agents',
     iconComponent: { name: 'cil-user-follow' }
+  },
+  {
+    name: 'KYC',
+    url: '/kyc-list',
+    iconComponent: { name: 'cil-user-follow' }
   }
 ];
 
