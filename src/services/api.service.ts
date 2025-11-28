@@ -82,6 +82,9 @@ export class ApiService {
   getUsers(params: any): Observable<any> {
     return this.http.get(this.url + 'admin/users/', { headers: this.getAuthHeaders(), params });
   }
+  getPolicies(params: any): Observable<any> {
+    return this.http.get(this.url + 'admin/policies/', { headers: this.getAuthHeaders(), params });
+  }
   logout() {
     const refresh = sessionStorage.getItem('refresh');
 

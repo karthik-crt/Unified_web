@@ -1,0 +1,326 @@
+<div class="dashboard-root bg-soft py-4">
+    <div class="container">
+
+        <!-- Header -->
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div>
+                <small *ngIf="dashboardData" class="text-muted">Overview & analytics</small>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center">
+                <button class="btn btn-primary btn-sm">Today's Report</button>
+                <button class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-download me-1"></i>Export
+                </button>
+            </div>
+        </div>
+
+        <!-- Top Metric Cards -->
+        <div class="row g-3 mb-4" *ngIf="dashboardData">
+
+            <!-- Card 1 -->
+            <div class="col-sm-6 col-md-3">
+                <div class="card h-100 shadow-sm card-primary">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="metric-icon bg-white-20 rounded-circle p-2 me-2">
+                                <i class="bi bi-currency-dollar text-white"></i>
+                            </div>
+                            <small class="text-white-75">Total Revenue Today</small>
+                        </div>
+                        <h3 class="mb-1 text-white">{{ formatCurrency(dashboardData?.revenue_today) }}</h3>
+                        <div class="mt-auto">
+                            <small class="text-white-75">
+                                This month: {{ formatCurrency(dashboardData?.revenue_this_month) }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-sm-6 col-md-3">
+                <div class="card h-100 shadow-sm card-accent">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="metric-icon bg-white-20 rounded-circle p-2 me-2">
+                                <i class="bi bi-file-earmark-text text-white"></i>
+                            </div>
+                            <small class="text-white-75">Policies Sold Today</small>
+                        </div>
+                        <h3 class="mb-1 text-white">{{ dashboardData?.policies_today }}</h3>
+                        <div class="mt-auto">
+                            <small class="text-white-75">
+                                <i class="bi bi-arrow-up-short"></i> {{ dashboardData?.policies_today_vs_yesterday }} vs
+                                yesterday
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-sm-6 col-md-3">
+                <div class="card h-100 shadow-sm card-white-bordered">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="metric-icon bg-primary-10 rounded-circle p-2 me-2">
+                                <i class="bi bi-people text-primary"></i>
+                            </div>
+                            <small class="title-primary">Total Active Users</small>
+                        </div>
+                        <h3 class="mb-1 text-accent">{{ dashboardData?.total_users | number }}</h3>
+                        <div class="mt-auto">
+                            <small class="text-muted">+{{ dashboardData?.new_users_today }} new today</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col-sm-6 col-md-3">
+                <div class="card h-100 shadow-sm card-white-bordered-accent">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="metric-icon bg-accent-10 rounded-circle p-2 me-2">
+                                <i class="bi bi-graph-up text-accent"></i>
+                            </div>
+                            <small class="title-primary">Total Sessions</small>
+                        </div>
+                        <h3 class="mb-1 text-accent">{{ dashboardData?.sessions | number }}</h3>
+                        <div class="mt-auto">
+                            <small class="text-muted">Active user sessions</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Main Chart -->
+        <div class="row g-3 mb-4" *ngIf="dashboardData">
+            <div class="col-lg-8">
+                <div class="card card-custom p-3 shadow-sm h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="mb-0 title-primary">Traffic</h6>
+                            <small class="text-muted">Last 15 days</small>
+                        </div>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary btn-sm">Day</button>
+                            <button class="btn btn-primary btn-sm active">Month</button>
+                            <button class="btn btn-outline-secondary btn-sm">Year</button>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <svg *ngIf="dashboardData?.revenue_trend" [attr.viewBox]="'0 0 ' + svgWidth + ' ' + svgHeight"
+                            preserveAspectRatio="none" class="w-100 h-100">
+
+                            <!-- Grid -->
+                            <g *ngFor="let i of [0,1,2,3,4]">
+                                <line [attr.x1]="leftPadding"
+                                    [attr.y1]="topPadding + i * ((svgHeight - topPadding - bottomPadding)/4)"
+                                    [attr.x2]="svgWidth - rightPadding"
+                                    [attr.y2]="topPadding + i * ((svgHeight - topPadding - bottomPadding)/4)"
+                                    stroke="rgba(31,53,116,0.06)" stroke-width="1"></line>
+                            </g>
+
+                            <!-- Area -->
+                            <defs>
+                                <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.12" />
+                                    <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.02" />
+                                </linearGradient>
+                            </defs>
+
+                            <polygon [attr.points]="areaPoints" fill="url(#g1)"></polygon>
+
+                            <!-- Line -->
+                            <polyline [attr.points]="linePoints" fill="none" stroke="var(--primary)" stroke-width="3"
+                                stroke-linecap="round"></polyline>
+
+                            <!-- Points -->
+                            <g *ngFor="let pt of circlePoints">
+                                <circle [attr.cx]="pt.x" [attr.cy]="pt.y" r="4" fill="var(--white)"
+                                    stroke="var(--primary)" stroke-width="2"></circle>
+                            </g>
+
+                            <!-- Y Axis -->
+                            <g *ngFor="let lbl of yAxisLabels; let i = index">
+                                <text x="8" [attr.y]="topPadding + i * ((svgHeight - topPadding - bottomPadding)/4) + 4"
+                                    font-size="11" fill="var(--primary)" opacity="0.85">
+                                    ₹{{ lbl/100000 | number:'1.0-0' }}L
+                                </text>
+                            </g>
+                        </svg>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-4">
+                <div class="row g-3 h-100">
+
+                    <!-- KYC Pending -->
+                    <div class="col-12">
+                        <div class="card card-white-bordered p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="title-primary">KYC Pending</small>
+                                    <h5 class="mb-0 text-accent">{{ dashboardData?.kyc_pending }}</h5>
+                                </div>
+                                <div class="text-muted small">
+                                    <i class="bi bi-clock-history me-1"></i>Queue
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Partner -->
+                    <div class="col-12" *ngIf="dashboardData?.top_partners?.length">
+                        <div class="card card-white-bordered p-3">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3 icon-circle bg-primary text-white">
+                                    <i class="bi bi-building"></i>
+                                </div>
+                                <div>
+                                    <small class="title-primary d-block">
+                                        {{ dashboardData?.top_partners?.[0]?.name }}
+                                    </small>
+                                    <h6 class="mb-0 text-accent">
+                                        {{ formatCurrency(dashboardData?.top_partners?.[0]?.revenue) }}
+                                    </h6>
+                                    <small class="text-muted">
+                                        {{ dashboardData?.top_partners?.[0]?.policies }} policies
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Agent -->
+                    <div class="col-12" *ngIf="dashboardData?.top_agents?.length">
+                        <div class="card card-white-bordered p-3">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3 icon-circle bg-accent text-white">
+                                    <i class="bi bi-person-badge"></i>
+                                </div>
+                                <div>
+                                    <small class="title-primary d-block">
+                                        {{ dashboardData?.top_agents?.[0]?.name }}
+                                    </small>
+                                    <h6 class="mb-0 text-accent">
+                                        {{ formatCurrency(dashboardData?.top_agents?.[0]?.revenue) }}
+                                    </h6>
+                                    <small class="text-muted">
+                                        {{ dashboardData?.top_agents?.[0]?.policies }} policies
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Product Category Split -->
+        <div class="row g-3 mb-4" *ngIf="dashboardData?.product_category_split">
+            <div class="col-lg-4 offset-lg-8">
+                <div class="card card-custom p-3 shadow-sm h-100">
+
+                    <h6 class="mb-3 title-primary">Product Category Split</h6>
+
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="position-relative">
+                            <svg width="140" height="140" viewBox="0 0 160 160">
+
+                                <circle *ngFor="let val of dashboardData.product_category_split.values; let i = index"
+                                    cx="80" cy="80" r="60" fill="none"
+                                    [attr.stroke]="i % 2 === 0 ? 'var(--primary)' : 'var(--accent)'" stroke-width="24"
+                                    [attr.stroke-dasharray]="(val/100)*377 + ' 377'"
+                                    [attr.stroke-dashoffset]="getCategoryOffset(i)" transform="rotate(-90 80 80)">
+                                </circle>
+
+
+                            </svg>
+
+                            <div class="position-absolute top-50 start-50 translate-middle text-center">
+                                <div class="h5 mb-0 title-primary">Total</div>
+                                <div class="small text-muted">Products</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product List -->
+                    <div class="list-plain">
+                        <div *ngFor="let label of dashboardData.product_category_split.labels; let i=index"
+                            class="d-flex justify-content-between py-2 border-bottom border-light">
+
+                            <div class="d-flex align-items-center">
+                                <span class="dot me-2"
+                                    [ngStyle]="{ 'background': i % 2 === 0 ? 'var(--primary)' : 'var(--accent)' }">
+                                </span>
+                                <small class="title-primary">{{ label }}</small>
+                            </div>
+
+                            <div class="fw-bold title-primary">
+                                {{ dashboardData.product_category_split.values[i] }}%
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Latest Policies -->
+        <div class="card card-custom p-0 shadow-sm mb-5" *ngIf="dashboardData?.latest_policies">
+            <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 title-primary">Latest Policies</h6>
+                <a href="#" class="text-primary small text-decoration-none">
+                    View All <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="title-primary">Policy No</th>
+                            <th class="title-primary">Customer</th>
+                            <th class="title-primary">Product</th>
+                            <th class="title-primary">Premium</th>
+                            <th class="title-primary">Partner</th>
+                            <th class="title-primary">Time</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let p of dashboardData?.latest_policies">
+                            <td class="fw-semibold title-primary">{{ p?.policy_no }}</td>
+                            <td class="title-primary">{{ p?.customer }}</td>
+                            <td class="title-primary">{{ p?.product }}</td>
+                            <td class="fw-semibold text-accent">
+                                {{ formatCurrency(p?.premium) }}
+                            </td>
+                            <td class="title-primary">{{ p?.partner }}</td>
+                            <td class="title-primary">{{ p?.time }}</td>
+                        </tr>
+
+                        <tr *ngIf="!dashboardData?.latest_policies?.length">
+                            <td colspan="6" class="text-center py-3 text-muted">
+                                No policies found
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
