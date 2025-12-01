@@ -475,6 +475,11 @@ export const adminNav: INavData[] = [
     name: 'Loans',
     url: '/loan-list',
     iconComponent: { name: 'cilCreditCard' }
+  },
+  {
+    name: 'Transactions History',
+    url: '/transcations-history',
+    iconComponent: { name: 'cil-money' }
   }
 ];
 

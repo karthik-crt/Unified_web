@@ -38,7 +38,8 @@ export const routes: Routes = [
         .then(m => m.UnifiedComponent),
     data: { title: 'Default' }
   },
-  // Layout wrapper for auth-required pages
+  // Layout wrapper for auth-required pages  ,TranscationsHistoryComponent
+
   {
     path: '',
     loadComponent: () =>
@@ -76,6 +77,12 @@ export const routes: Routes = [
         path: 'kyc-list',
         loadComponent: () =>
           import('../app/Admin/kyc-list/kyc-list.component').then(m => m.KycListComponent)
+      },
+      {
+
+        path: 'transcations-history',
+        loadComponent: () =>
+          import('../app/Admin/transcations-history/transcations-history.component').then(m => m.TranscationsHistoryComponent)
       },
       {
         path: 'policy-list',
