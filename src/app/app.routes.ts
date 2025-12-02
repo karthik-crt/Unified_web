@@ -85,6 +85,11 @@ export const routes: Routes = [
           import('../app/Admin/transcations-history/transcations-history.component').then(m => m.TranscationsHistoryComponent)
       },
       {
+        path:'revenue',
+        loadComponent: ()=>
+          import('../app/Admin/revenue/revenue.component').then(m=>m.RevenueComponent)
+      },
+      {
         path: 'policy-list',
         loadComponent: () =>
           import('./Admin/policy-list/policy-list.component').then(m => m.PolicyListComponent)

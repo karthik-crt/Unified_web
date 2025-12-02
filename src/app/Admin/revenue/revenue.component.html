@@ -1,0 +1,72 @@
+<div class="user-list-container">
+
+    <!-- Filters -->
+    <div class="filters-container">
+
+        <div class="filter-item">
+            <label>Start Date</label>
+            <input type="date" [(ngModel)]="start_date" (change)="fetchRevenue()" class="filter-input">
+        </div>
+
+        <div class="filter-item">
+            <label>End Date</label>
+            <input type="date" [(ngModel)]="end_date" (change)="fetchRevenue()" class="filter-input">
+        </div>
+
+        <div class="filter-item">
+            <label>Group By</label>
+            <select [(ngModel)]="group_by" class="filter-select" (change)="fetchRevenue()">
+                <option value="">None</option>
+                <option value="daily">Daily</option>
+                <option value="monthly">Monthly</option>
+                <option value="agent">Agent</option>
+                <option value="insurance_type">Insurance Type</option>
+            </select>
+        </div>
+
+        <button class="btn-reset" (click)="resetFilters()">Reset</button>
+
+    </div>
+
+
+    <!-- Revenue Summary -->
+    <div class="summary-box" *ngIf="revenueData">
+        <h3>Revenue Summary</h3>
+
+        <p><strong>Total Revenue:</strong> ₹ {{ revenueData.total_revenue }}</p>
+        <p><strong>Total Policies:</strong> {{ revenueData.total_policies }}</p>
+        <p><strong>From:</strong> {{ revenueData.start_date }}</p>
+        <p><strong>To:</strong> {{ revenueData.end_date }}</p>
+    </div>
+
+
+    <!-- Breakdown Table -->
+    <div class="table-container" *ngIf="breakdown.length > 0">
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Period / Type / Agent</th>
+                    <th>Revenue</th>
+                    <th>Policies</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let b of breakdown">
+                    <td>
+                        {{ b.period || b.insurance_type || b.agent_mobile || "—" }}
+                    </td>
+                    <td>₹ {{ b.revenue }}</td>
+                    <td>{{ b.policies }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<div class="loading-overlay" *ngIf="loading">
+    <div class="loader-premium"></div>
+    <p>Loading please wait...</p>
+</div>

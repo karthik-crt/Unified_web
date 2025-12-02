@@ -477,10 +477,15 @@ export const adminNav: INavData[] = [
     iconComponent: { name: 'cilCreditCard' }
   },
   {
-    name: 'Transactions History',
+    name: 'Transactions',
     url: '/transcations-history',
     iconComponent: { name: 'cilHistory' }
-  }
+  },
+  {
+    name: 'Revenue',
+    url: '/revenue',
+    iconComponent: { name: 'cilMoney' }
+  },
 ];
 
 // Agent menu

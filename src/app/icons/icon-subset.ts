@@ -1,5 +1,6 @@
 import { cilAddressBook } from '@coreui/icons';
 import { cilHistory } from '@coreui/icons';
+import { cilMoney } from '@coreui/icons';
 
 import {
   cibCcAmex,
@@ -97,7 +98,7 @@ import {
   cilUser,
   cilUserFemale,
   cilUserFollow,
-  cilUserUnfollow
+  cilUserUnfollow,
 } from '@coreui/icons';
 
 import { signet } from './signet';
@@ -122,6 +123,7 @@ export const iconSubset = {
   cifIn,
   cifPl,
   cifUs,
+  cilMoney,
   cilAccountLogout,
   cilAlignCenter,
   cilAlignLeft,
@@ -308,6 +310,7 @@ export enum IconSubset {
   signet = 'signet',
   cilAddressBook = 'cilAddressBook',
   cilHistory = 'cilHistory',
+  cilMoney = 'cilMoney',
 
 }
 

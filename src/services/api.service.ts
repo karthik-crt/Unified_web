@@ -127,5 +127,11 @@ export class ApiService {
     this.router.navigate(['/login']);
   }
 
+  getRevenue(params: any): Observable<any> {
+    return this.http.get(this.url + 'admin/revenue/', {
+      headers: this.getAuthHeaders(),
+      params
+    });
+  }
 
 }
