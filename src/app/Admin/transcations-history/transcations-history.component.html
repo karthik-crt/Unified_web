@@ -8,7 +8,7 @@
             <!-- Search Box -->
             <div class="filter-item">
                 <i class="filter-icon cil-search"></i>
-                <input type="text" class="filter-input" placeholder="Search by name, email, mobile..."
+                <input type="text" class="filter-input" placeholder="Search by user or mobile..."
                     [(ngModel)]="searchText" (input)="applyFilters()" />
             </div>
 
@@ -17,43 +17,47 @@
                 <i class="filter-icon cil-check-circle"></i>
                 <select class="filter-select" [(ngModel)]="statusFilter" (change)="applyFilters()">
                     <option value="">All Status</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
+                    <option value="paid">Paid</option>
+                    <option value="failed">Failed</option>
                 </select>
             </div>
 
             <!-- Reset Filters -->
-            <button class="btn-reset" (click)="resetFilters()">
-                Reset
-            </button>
+            <button class="btn-reset" (click)="resetFilters()">Reset</button>
 
         </div>
 
-
+        <!-- Table -->
         <table class="user-table">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Policy No</th>
-                    <th>User</th>
-                    <th>Premium</th>
+                    <th>Txn Ref</th>
+                    <th>Amount</th>
                     <th>Status</th>
+                    <th>Gateway</th>
+                    <th>User Mobile</th>
+                    <th>Agent Mobile</th>
                     <th>Created At</th>
                 </tr>
             </thead>
 
             <tbody>
-                <tr *ngFor="let p of policies">
-                    <td>{{ p.id }}</td>
-                    <td>{{ p.policy_no }}</td>
-                    <td>{{ p.user }}</td>
-                    <td>₹ {{ p.premium }}</td>
+                <tr *ngFor="let t of transactions">
+                    <td>{{ t.id }}</td>
+                    <td>{{ t.txn_reference_id }}</td>
+                    <td>₹ {{ t.amount }}</td>
+
                     <td>
-                        <span class="status-badge" [ngClass]="p.status === 'Active' ? 'active' : 'inactive'">
-                            {{ p.status }}
+                        <span class="status-badge" [ngClass]="t.status === 'paid' ? 'active' : 'inactive'">
+                            {{ t.status }}
                         </span>
                     </td>
-                    <td>{{ p.created_at | date:'medium' }}</td>
+
+                    <td>{{ t.gateway }}</td>
+                    <td>{{ t.user_mobile }}</td>
+                    <td>{{ t.agent_mobile || '—' }}</td>
+                    <td>{{ t.created_at | date:'medium' }}</td>
                 </tr>
             </tbody>
         </table>
@@ -62,21 +66,18 @@
 
     <!-- Pagination -->
     <div class="pagination">
-        <button [disabled]="page === 1" (click)="changePage(page - 1)">
-            Previous
-        </button>
+        <button [disabled]="page === 1" (click)="changePage(page - 1)">Previous</button>
 
         <span class="page-info">
             Page {{ page }} of {{ totalPages }}
         </span>
 
-        <button [disabled]="page === totalPages" (click)="changePage(page + 1)">
-            Next
-        </button>
+        <button [disabled]="page === totalPages" (click)="changePage(page + 1)">Next</button>
     </div>
 
 </div>
 
+<!-- Loader -->
 <div class="loading-overlay" *ngIf="loading">
     <div class="loader-premium"></div>
     <p>Loading please wait...</p>

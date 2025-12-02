@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import Swal from 'sweetalert2';
+import { RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
-import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-transcations-history',
@@ -18,11 +17,12 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class TranscationsHistoryComponent implements OnInit {
 
-  constructor(private api: ApiService, private router: Router) { }
+  constructor(private api: ApiService) { }
 
   loading = false;
 
-  policies: any[] = [];
+  // Data List
+  transactions: any[] = [];
 
   // Filters
   searchText: string = '';
@@ -30,71 +30,77 @@ export class TranscationsHistoryComponent implements OnInit {
 
   // Pagination
   page = 1;
-  pageSize = 20;
+  pageSize = 10;
   totalPages = 1;
   totalRecords = 0;
 
   ngOnInit(): void {
-    this.getPolicies();
+    this.getTransactions();
   }
 
-  // Fetch policies with filters + pagination
-  getPolicies() {
+  // Fetch Transactions
+  getTransactions() {
     this.loading = true;
 
     const params: any = {
       page: this.page,
-      limit: this.pageSize
+      limit: this.pageSize,
     };
 
     if (this.searchText) params.search = this.searchText;
     if (this.statusFilter) params.status = this.statusFilter;
 
-    this.api.getPolicies(params).subscribe({
+    this.api.getTransactionHistory(params).subscribe({
       next: (res) => {
         this.loading = false;
 
         if (!res || res.StatusCode !== true) {
-          console.error("Bad API response", res);
+          console.error("Invalid response", res);
           return;
         }
 
-        this.policies = res.data.policies.map((p: any) => ({
-          id: p.id,
-          policy_no: p.policy_no,
-          user: p.user,
-          premium: p.premium,
-          status: p.status,
-          created_at: p.created_at
+        const data = res.data;
+
+        this.transactions = data.results.map((t: any) => ({
+          id: t.id,
+          txn_reference_id: t.txn_reference_id,
+          amount: t.amount,
+          status: t.status,
+          gateway: t.gateway,
+          created_at: t.created_at,
+          user_mobile: t.user_mobile,
+          agent_mobile: t.agent_mobile
         }));
 
-        this.totalRecords = res.data.total;
-        this.totalPages = Math.ceil(res.data.total / this.pageSize);
+        this.totalRecords = data.count;
+        this.totalPages = Math.ceil(data.count / this.pageSize);
       },
       error: () => {
         this.loading = false;
-        console.error("API error");
+        console.error("API Error");
       }
     });
   }
 
-  // Apply filters and reset to page 1
+  // Apply Filters
   applyFilters() {
     this.page = 1;
-    this.getPolicies();
+    this.getTransactions();
   }
 
-  // Pagination navigation
-  changePage(page: number) {
-    if (page < 1 || page > this.totalPages) return;
-    this.page = page;
-    this.getPolicies();
-  }
-
+  // Reset Filters
   resetFilters() {
     this.searchText = '';
     this.statusFilter = '';
     this.page = 1;
-    this.getPolicies();
+    this.getTransactions();
+  }
+
+  // Pagination
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
+    this.page = page;
+    this.getTransactions();
   }
 }

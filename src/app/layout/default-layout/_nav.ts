@@ -479,7 +479,7 @@ export const adminNav: INavData[] = [
   {
     name: 'Transactions History',
     url: '/transcations-history',
-    iconComponent: { name: 'cil-money' }
+    iconComponent: { name: 'cilHistory' }
   }
 ];
 

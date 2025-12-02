@@ -89,12 +89,14 @@ export class ApiService {
     return this.http.get(this.url + 'admin/loan-list/', { headers: this.getAuthHeaders(), params });
   }
   getKYCList(params: any): Observable<any> {
-  return this.http.get(this.url + 'admin/customer/kyc-status/', {
-    headers: this.getAuthHeaders(),
-    params,
-  });
-}
-
+    return this.http.get(this.url + 'admin/customer/kyc-status/', {
+      headers: this.getAuthHeaders(),
+      params,
+    });
+  }
+  getTransactionHistory(params: any): Observable<any> {
+    return this.http.get(this.url + 'admin/transactions/', { headers: this.getAuthHeaders(), params });
+  }
   logout() {
     const refresh = sessionStorage.getItem('refresh');
 
